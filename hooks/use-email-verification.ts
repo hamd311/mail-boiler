@@ -1,0 +1,61 @@
+"use client";
+
+import { useState } from "react";
+import { useToast } from "@/hooks/use-toast";
+
+interface VerificationResult {
+  status: string;
+  email: string;
+}
+
+export interface VerifyResponse {
+  results: VerificationResult[];
+}
+
+export function useEmailVerification() {
+  const { toast } = useToast();
+  const [loading, setLoading] = useState(false);
+  const [result, setResult] = useState<VerificationResult | null>(null);
+
+  const verifyEmail = async (emails: string[]): Promise<VerifyResponse> => {
+    setLoading(true);
+    setResult(null);
+
+    try {
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8002"}/verify_emails`,
+        {
+          method: "POST",
+          headers: {
+            Authorization: "Bearer tryest@@@###/><?:!!tr$#res",
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ emails }),
+        }
+      );
+
+      if (!response.ok) throw new Error("Verification failed");
+
+      const data: VerifyResponse = await response.json();
+
+      if (data.results?.length > 0) {
+        setResult(data.results[0]);
+        toast({ title: "Verification complete!" });
+      }
+
+      return data;
+    } catch (error) {
+      console.error("Verification error:", error);
+      toast({
+        title: "Failed to verify email. Please try again.",
+        variant: "destructive",
+      });
+      // return an empty, safe fallback value to keep the return type consistent
+      return { results: [] };
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return { verifyEmail, result, loading };
+}

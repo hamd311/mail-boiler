@@ -1,29 +1,89 @@
-# README #
+# 📧 Mail Verify
 
-This README would normally document whatever steps are necessary to get your application up and running.
+A Next.js + TypeScript application for fast and accurate bulk email verification, featuring a modern UI built with Shadcn, TailwindCSS, and seamless UX powered by React Query and React Hook Form.
 
-### What is this repository for? ###
+---
 
-* Quick summary
-* Version
-* [Learn Markdown](https://bitbucket.org/tutorials/markdowndemo)
+## 🔧 Prerequisites
 
-### How do I get set up? ###
+- **Node.js** `>=22.12.0`
+- **pnpm** `>=10.10.0`
 
-* Summary of set up
-* Configuration
-* Dependencies
-* Database configuration
-* How to run tests
-* Deployment instructions
+---
 
-### Contribution guidelines ###
+## 🚀 Getting Started
 
-* Writing tests
-* Code review
-* Other guidelines
+### 1. Clone the repository
 
-### Who do I talk to? ###
+```bash
+git clone https://bitbucket.org/<your-bitbucket-email-here>/mail_verify
+cd mail_verify
+```
 
-* Repo owner or admin
-* Other community or team contact
+### 2. Install dependencies
+
+```bash
+pnpm install
+```
+
+### 3. Start the development server
+
+```bash
+pnpm  dev
+```
+
+Open http://localhost:3000 to view the app in the browser.
+
+---
+
+## 🏗 Build for production
+
+```bash
+pnpm  build
+```
+
+Output will be in the `dist/` directory.
+
+---
+
+## 🔍 Preview production build
+
+```bash
+pnpm start
+```
+
+---
+
+## 🩹 Lint & Format
+
+### Lint the codebase
+
+```bash
+pnpm  lint
+```
+
+### Format the codebase
+
+```bash
+pnpm  format
+```
+
+---
+
+## 📦 Tech Stack
+
+- [Next.js 15](https://nextjs.org/)
+- [React 19](https://react.dev/)
+- [Shadcn UI](https://ui.shadcn.com/)
+- [React Query](https://tanstack.com/query/)
+- [React Hook Form](https://react-hook-form.com/)
+- [TailwindCSS v4](https://tailwindcss.com/)
+- [TypeScript](https://www.typescriptlang.org/)
+
+🧑‍💻 Development Notes
+
+Backend API built with FastAPI (handled separately)
+
+The project is optimized for deployment on Vercel
+
+Environment variables are configured via .env.local
