@@ -26,10 +26,10 @@ export default function LoginPage() {
     resolver: zodResolver(loginSchema),
   });
 
-  const { login } = useAuth();
+  const { login, loading } = useAuth();
 
   const onSubmit = (data: LoginFormData) => {
-    login(data.email);
+    login(data.email, data.password);
   };
 
   return (
@@ -98,7 +98,9 @@ export default function LoginPage() {
                   />
                 </div>
                 {errors.email && (
-                  <p className="mt-1 text-sm text-red-500">{errors.email.message}</p>
+                  <p className="mt-1 text-sm text-red-500">
+                    {errors.email.message}
+                  </p>
                 )}
               </div>
 
@@ -110,7 +112,7 @@ export default function LoginPage() {
                   </label>
                   <a
                     href="#"
-                    className="text-muted-foreground text-sm transition-colors hover:text-[#10b981]"
+                    className=" hidden text-muted-foreground text-sm transition-colors hover:text-[#10b981]"
                   >
                     Forgot password?
                   </a>
@@ -130,17 +132,19 @@ export default function LoginPage() {
                   />
                 </div>
                 {errors.password && (
-                  <p className="mt-1 text-sm text-red-500">{errors.password.message}</p>
+                  <p className="mt-1 text-sm text-red-500">
+                    {errors.password.message}
+                  </p>
                 )}
               </div>
 
               <div className="pt-2">
                 <Button
                   type="submit"
-                  disabled={isSubmitting}
+                  disabled={isSubmitting || loading}
                   className="group h-12 w-full bg-gradient-to-r from-[#10b981] via-[#06b6d4] to-[#3b82f6] text-white transition-all duration-300 hover:opacity-90 hover:shadow-lg hover:shadow-[#10b981]/25"
                 >
-                  {isSubmitting ? "Logging in..." : "Log In"}
+                  {isSubmitting || loading ? "Logging in..." : "Log In"}
                   <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
                 </Button>
               </div>
@@ -151,7 +155,9 @@ export default function LoginPage() {
                     <div className="border-border/50 w-full border-t"></div>
                   </div>
                   <div className="relative flex justify-center text-xs">
-                    <span className="bg-card text-muted-foreground px-4">or</span>
+                    <span className="bg-card text-muted-foreground px-4">
+                      or
+                    </span>
                   </div>
                 </div>
 

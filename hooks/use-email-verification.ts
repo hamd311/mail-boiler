@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
+import { apiFetch } from "@/lib/api"; // ✅ shared helper
 
 interface VerificationResult {
   status: string;
@@ -22,19 +23,22 @@ export function useEmailVerification() {
     setResult(null);
 
     try {
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8002"}/verify_emails`,
-        {
-          method: "POST",
-          headers: {
-            Authorization: "Bearer tryest@@@###/><?:!!tr$#res",
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ emails }),
-        }
-      );
+      const response = await apiFetch("/verify_emails", {
+        method: "POST",
+        body: JSON.stringify({ emails }),
+      });
 
-      if (!response.ok) throw new Error("Verification failed");
+      if (!response.ok) {
+        if (response.status === 401) {
+          toast({
+            title: "Session expired",
+            description: "Please log in again.",
+            variant: "destructive",
+          });
+          localStorage.removeItem("mailverify-token");
+        }
+        throw new Error(`Verification failed (${response.status})`);
+      }
 
       const data: VerifyResponse = await response.json();
 
@@ -47,10 +51,10 @@ export function useEmailVerification() {
     } catch (error) {
       console.error("Verification error:", error);
       toast({
-        title: "Failed to verify email. Please try again.",
+        title: "Failed to verify email",
+        description: "Something went wrong. Please try again later.",
         variant: "destructive",
       });
-      // return an empty, safe fallback value to keep the return type consistent
       return { results: [] };
     } finally {
       setLoading(false);

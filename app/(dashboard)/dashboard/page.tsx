@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import { useEffect, useState } from "react";
 import { motion } from "motion/react";
 import { AlertCircle, Zap, Upload, FileText } from "lucide-react";
 import { useAuth } from "@/lib/contexts/AuthContext";
@@ -10,6 +10,7 @@ import { SingleVerifier } from "@/components/dashboard/single-verifier";
 import { BulkUpload } from "@/components/dashboard/bulk-upload";
 import { ResultsTable } from "@/components/dashboard/tesults-table";
 import { BulkVerifier } from "@/components/dashboard/bulk-verifier";
+import { useRouter } from "next/navigation";
 
 interface EmailResult {
   email: string;
@@ -20,6 +21,7 @@ interface EmailResult {
 export default function DashboardPage() {
   const { user, updateCredits } = useAuth();
   const [results, setResults] = useState<EmailResult[]>([]);
+  const router = useRouter();
 
   const handleVerify = (emailCount: number) => {
     if (!user) return;
@@ -31,6 +33,12 @@ export default function DashboardPage() {
 
     updateCredits(-emailCount);
   };
+
+  useEffect(() => {
+    if (!user) {
+      router.replace("/");
+    }
+  }, [user, router]);
 
   const handleBulkResults = (newResults: EmailResult[]) => {
     setResults([...newResults, ...results]);
@@ -98,8 +106,9 @@ export default function DashboardPage() {
                 <AlertCircle className="h-5 w-5 text-amber-600 dark:text-amber-400" />
                 <AlertDescription className="text-amber-900 dark:text-amber-200">
                   <p>
-                    You&apos;re running low on credits ({user.credits} remaining). Consider
-                    upgrading your plan to continue verifying emails.
+                    You&apos;re running low on credits ({user.credits}{" "}
+                    remaining). Consider upgrading your plan to continue
+                    verifying emails.
                   </p>
                 </AlertDescription>
               </Alert>
@@ -152,11 +161,17 @@ export default function DashboardPage() {
               </TabsContent>
 
               <TabsContent value="bulk" className="space-y-6">
-                <BulkUpload onVerify={handleVerify} onResults={handleBulkResults} />
+                <BulkUpload
+                  onVerify={handleVerify}
+                  onResults={handleBulkResults}
+                />
               </TabsContent>
 
               <TabsContent value="text" className="space-y-6">
-                <BulkVerifier onVerify={handleVerify} onResults={handleBulkResults} />
+                <BulkVerifier
+                  onVerify={handleVerify}
+                  onResults={handleBulkResults}
+                />
               </TabsContent>
             </Tabs>
           </motion.div>

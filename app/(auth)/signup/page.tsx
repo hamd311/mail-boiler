@@ -1,8 +1,6 @@
 "use client";
 
-import type React from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { motion } from "motion/react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -11,11 +9,12 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
 import { Mail, Lock, User, ArrowRight, Shield } from "lucide-react";
+import { useAuth } from "@/lib/contexts/AuthContext";
 
 // ✅ Zod validation schema
 const signupSchema = z
   .object({
-    name: z.string().min(2, "Full name is required"),
+    username: z.string().min(2, "Username is required"),
     email: z.string().email("Please enter a valid email"),
     password: z.string().min(8, "Password must be at least 8 characters"),
     confirmPassword: z.string().min(8, "Please confirm your password"),
@@ -28,7 +27,7 @@ const signupSchema = z
 type SignupFormData = z.infer<typeof signupSchema>;
 
 export default function SignupPage() {
-  const router = useRouter();
+  const { signup, loading } = useAuth();
 
   const {
     register,
@@ -39,13 +38,11 @@ export default function SignupPage() {
   });
 
   const onSubmit = async (data: SignupFormData) => {
-    try {
-      // Simulate signup
-      localStorage.setItem("user", JSON.stringify({ name: data.name, email: data.email }));
-      router.push("/dashboard");
-    } catch (err) {
-      console.error("Signup failed:", err);
-    }
+    await signup({
+      username: data.username,
+      email: data.email,
+      password: data.password,
+    });
   };
 
   return (
@@ -89,26 +86,30 @@ export default function SignupPage() {
           </div>
 
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-6 p-8">
-            {/* Name Field */}
+            {/* Username */}
             <div className="space-y-2">
               <label htmlFor="name" className="text-sm">
-                Full Name
+                User name
               </label>
               <div className="group relative">
                 <User className="text-muted-foreground absolute top-1/2 left-3.5 h-5 w-5 -translate-y-1/2 transition-colors group-focus-within:text-[#10b981]" />
                 <Input
                   id="name"
                   placeholder="John Doe"
-                  {...register("name")}
+                  {...register("username")}
                   className={`bg-secondary/50 border-border/50 h-12 pl-11 transition-all focus:border-[#10b981]/50 focus:ring-[#10b981]/20 ${
-                    errors.name ? "border-red-500" : ""
+                    errors.username ? "border-red-500" : ""
                   }`}
                 />
               </div>
-              {errors.name && <p className="text-sm text-red-500">{errors.name.message}</p>}
+              {errors.username && (
+                <p className="text-sm text-red-500">
+                  {errors.username.message}
+                </p>
+              )}
             </div>
 
-            {/* Email Field */}
+            {/* Email */}
             <div className="space-y-2">
               <label htmlFor="email" className="text-sm">
                 Email
@@ -125,10 +126,12 @@ export default function SignupPage() {
                   }`}
                 />
               </div>
-              {errors.email && <p className="text-sm text-red-500">{errors.email.message}</p>}
+              {errors.email && (
+                <p className="text-sm text-red-500">{errors.email.message}</p>
+              )}
             </div>
 
-            {/* Password Field */}
+            {/* Password */}
             <div className="space-y-2">
               <label htmlFor="password" className="text-sm">
                 Password
@@ -145,10 +148,14 @@ export default function SignupPage() {
                   }`}
                 />
               </div>
-              {errors.password && <p className="text-sm text-red-500">{errors.password.message}</p>}
+              {errors.password && (
+                <p className="text-sm text-red-500">
+                  {errors.password.message}
+                </p>
+              )}
             </div>
 
-            {/* Confirm Password Field */}
+            {/* Confirm Password */}
             <div className="space-y-2">
               <label htmlFor="confirmPassword" className="text-sm">
                 Confirm Password
@@ -166,61 +173,24 @@ export default function SignupPage() {
                 />
               </div>
               {errors.confirmPassword && (
-                <p className="text-sm text-red-500">{errors.confirmPassword.message}</p>
+                <p className="text-sm text-red-500">
+                  {errors.confirmPassword.message}
+                </p>
               )}
             </div>
 
-            {/* Submit */}
+            {/* ✅ Submit */}
             <div className="pt-2">
               <Button
                 type="submit"
-                disabled={isSubmitting}
+                disabled={isSubmitting || loading}
                 className="group h-12 w-full bg-gradient-to-r from-[#10b981] via-[#06b6d4] to-[#3b82f6] text-white transition-all duration-300 hover:opacity-90 hover:shadow-lg hover:shadow-[#10b981]/25"
               >
-                {isSubmitting ? "Creating Account..." : "Create Account"}
+                {isSubmitting || loading
+                  ? "Creating Account..."
+                  : "Create Account"}
                 <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
               </Button>
-            </div>
-
-            {/* Legal + Links */}
-            <div className="space-y-4 pt-2">
-              <p className="text-muted-foreground text-center text-xs">
-                By signing up, you agree to our{" "}
-                <a
-                  href="#"
-                  className="text-foreground underline transition-colors hover:text-[#10b981]"
-                >
-                  Terms of Service
-                </a>{" "}
-                and{" "}
-                <a
-                  href="#"
-                  className="text-foreground underline transition-colors hover:text-[#10b981]"
-                >
-                  Privacy Policy
-                </a>
-              </p>
-
-              <div className="relative">
-                <div className="absolute inset-0 flex items-center">
-                  <div className="border-border/50 w-full border-t"></div>
-                </div>
-                <div className="relative flex justify-center text-xs">
-                  <span className="bg-card text-muted-foreground px-4">or</span>
-                </div>
-              </div>
-
-              <p className="text-center text-sm">
-                Already have an account?{" "}
-                <Link href={"/login"}>
-                  <button
-                    type="button"
-                    className="text-[#10b981] transition-colors hover:text-[#06b6d4]"
-                  >
-                    Log in
-                  </button>
-                </Link>
-              </p>
             </div>
           </form>
         </Card>
