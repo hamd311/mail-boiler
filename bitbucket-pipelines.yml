@@ -2,7 +2,7 @@ image: node:14
 
 pipelines:
   branches:
-    develop:
+    main:
       - step:
           name: Trigger Deployment on EC2
           script:
