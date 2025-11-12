@@ -4,9 +4,9 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev -p 3001",
     "build": "next build",
-    "start": "next start",
+    "start": "next start -p 3001",
     "lint": "eslint . --fix",
     "format": "prettier --write \"**/*.{js,jsx,ts,tsx,md,json,css,scss}\""
   },
@@ -47,6 +47,7 @@
     "date-fns": "4.1.0",
     "embla-carousel-react": "8.5.1",
     "input-otp": "1.4.1",
+    "jwt-decode": "^4.0.0",
     "lucide-react": "^0.454.0",
     "motion": "^12.23.24",
     "next": "16.0.0",
