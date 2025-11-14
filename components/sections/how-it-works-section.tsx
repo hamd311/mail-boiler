@@ -6,88 +6,67 @@ const steps = [
   {
     icon: Mail,
     title: "Enter Email",
-    description: "Type in a single email or upload a list of emails you want to verify.",
+    description:
+      "Type in a single email or upload a list of emails you want to verify.",
     step: 1,
-    gradient: "from-[#10b981] to-[#06b6d4]",
+    color: "bg-emerald-500",
   },
   {
     icon: Zap,
     title: "Verify Instantly",
-    description: "Our system checks the email against multiple validation layers.",
+    description:
+      "Our system checks the email against multiple validation layers.",
     step: 2,
-    gradient: "from-[#06b6d4] to-[#3b82f6]",
+    color: "bg-cyan-500",
   },
   {
     icon: CheckCircle,
     title: "Get Clean Results",
-    description: "Receive detailed results with deliverability status and confidence scores.",
+    description:
+      "Receive detailed results with deliverability status and confidence scores.",
     step: 3,
-    gradient: "from-[#3b82f6] to-[#8b5cf6]",
+    color: "bg-indigo-500",
   },
 ];
 
 export function HowItWorks() {
   return (
-    <section className="from-background to-secondary/30 relative overflow-hidden bg-gradient-to-b py-20 sm:py-32">
-      {/* Subtle decorative background */}
-      <div className="absolute inset-0 -z-10">
-        <div className="absolute top-1/2 left-1/2 h-[600px] w-[600px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-gradient-to-br from-[#10b981]/5 via-[#06b6d4]/5 to-[#3b82f6]/5 blur-3xl" />
-      </div>
-
+    <section className="relative overflow-hidden bg-background">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-          className="mb-20 text-center"
+          transition={{ duration: 0.6 }}
+          className="mb-12 text-center"
         >
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.2, duration: 0.5 }}
-            className="mb-6 inline-flex items-center gap-2 rounded-full border border-[#10b981]/20 bg-gradient-to-r from-[#10b981]/10 via-[#06b6d4]/10 to-[#3b82f6]/10 px-4 py-2"
-          >
-            <span className="text-sm">How it works</span>
-          </motion.div>
+          <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-border bg-secondary/50 px-4 py-1.5">
+            <span className="text-sm text-muted-foreground">How it works</span>
+          </div>
 
           <h2 className="mb-4 text-3xl sm:text-4xl lg:text-5xl">
             How It{" "}
-            <span className="relative inline-block">
-              <span className="relative z-10 bg-gradient-to-r from-[#10b981] via-[#06b6d4] to-[#3b82f6] bg-clip-text text-transparent">
-                Works
-              </span>
-              <motion.span
-                initial={{ scaleX: 0 }}
-                whileInView={{ scaleX: 1 }}
-                viewport={{ once: true }}
-                transition={{ delay: 0.5, duration: 0.8 }}
-                className="absolute right-0 -bottom-2 left-0 -z-0 h-3 origin-left bg-gradient-to-r from-[#10b981]/20 via-[#06b6d4]/20 to-[#3b82f6]/20"
-              />
-            </span>
+            <span className="text-cyan-600 dark:text-cyan-400">Works</span>
           </h2>
-          <p className="text-muted-foreground mx-auto max-w-2xl text-lg">
+          <p className="mx-auto max-w-2xl text-lg text-muted-foreground">
             Three simple steps to verify your emails
           </p>
         </motion.div>
 
         {/* Steps - Desktop Layout */}
         <div className="relative mx-auto hidden max-w-5xl md:block">
-          {/* Connecting Line - More subtle */}
-          <div className="absolute top-16 right-[16.66%] left-[16.66%] h-[2px]">
-            <div className="from-border via-border to-border h-full bg-gradient-to-r" />
+          {/* Connecting Line */}
+          <div className="absolute top-10 left-[16.66%] right-[16.66%] h-[2px] bg-border">
             <motion.div
               initial={{ scaleX: 0 }}
               whileInView={{ scaleX: 1 }}
               viewport={{ once: true }}
               transition={{
-                duration: 1.5,
-                delay: 0.5,
-                ease: [0.22, 1, 0.36, 1],
+                duration: 1.2,
+                delay: 0.3,
               }}
-              className="absolute inset-0 h-full origin-left bg-gradient-to-r from-[#10b981]/60 via-[#06b6d4]/60 to-[#3b82f6]/60"
+              className="h-full origin-left bg-cyan-500"
             />
           </div>
 
@@ -95,43 +74,31 @@ export function HowItWorks() {
             {steps.map((step, index) => (
               <motion.div
                 key={step.title}
-                initial={{ opacity: 0, y: 50 }}
+                initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{
-                  duration: 0.7,
-                  delay: index * 0.2,
-                  ease: [0.22, 1, 0.36, 1],
+                  duration: 0.6,
+                  delay: index * 0.15,
                 }}
                 className="relative flex flex-col items-center"
               >
-                {/* Icon Container - Cleaner without excessive glow */}
-                <div className="relative mb-8">
-                  {/* Very subtle background glow - much less intense */}
-                  <div
-                    className={`absolute inset-0 rounded-full bg-gradient-to-br ${step.gradient} opacity-10 blur-2xl`}
-                  />
-
-                  {/* Main icon container */}
+                {/* Icon Container */}
+                <div className="relative mb-6">
                   <motion.div
                     whileHover={{ scale: 1.05 }}
-                    transition={{ duration: 0.3 }}
+                    transition={{ duration: 0.2 }}
                     className="relative"
                   >
-                    {/* Outer ring - cleaner border */}
-                    <div className="bg-card border-border flex h-20 w-20 items-center justify-center rounded-full border-2 shadow-md">
-                      {/* Inner gradient circle */}
-                      <div
-                        className={`h-14 w-14 rounded-full bg-gradient-to-br ${step.gradient} flex items-center justify-center shadow-lg`}
-                      >
-                        <step.icon className="h-7 w-7 text-white" />
-                      </div>
+                    {/* Main icon circle */}
+                    <div
+                      className={`flex h-20 w-20 items-center justify-center rounded-full ${step.color}`}
+                    >
+                      <step.icon className="h-8 w-8 text-white" />
                     </div>
 
-                    {/* Step number badge - more subtle */}
-                    <div
-                      className={`absolute -top-1 -right-1 h-7 w-7 rounded-full bg-gradient-to-br ${step.gradient} border-background flex items-center justify-center border-2 text-sm text-white shadow-md`}
-                    >
+                    {/* Step number badge */}
+                    <div className="absolute -top-1 -right-1 flex h-6 w-6 items-center justify-center rounded-full border-2 border-background bg-cyan-500 text-xs text-white shadow-md">
                       {step.step}
                     </div>
                   </motion.div>
@@ -140,22 +107,22 @@ export function HowItWorks() {
                 {/* Content */}
                 <div className="space-y-2 text-center">
                   <h3 className="text-xl">{step.title}</h3>
-                  <p className="text-muted-foreground mx-auto max-w-xs text-sm leading-relaxed">
+                  <p className="mx-auto max-w-xs text-sm leading-relaxed text-muted-foreground">
                     {step.description}
                   </p>
                 </div>
 
-                {/* Arrow indicator - More visible but not overwhelming */}
+                {/* Arrow indicator */}
                 {index < steps.length - 1 && (
                   <motion.div
                     initial={{ opacity: 0, x: -10 }}
                     whileInView={{ opacity: 1, x: 0 }}
                     viewport={{ once: true }}
-                    transition={{ delay: index * 0.2 + 0.8, duration: 0.5 }}
-                    className="absolute top-16 -right-5 hidden lg:block"
+                    transition={{ delay: index * 0.15 + 0.6, duration: 0.5 }}
+                    className="absolute top-10 -right-4 hidden lg:block"
                   >
-                    <div className={`rounded-full bg-gradient-to-r p-1 ${step.gradient}`}>
-                      <ArrowRight className="h-4 w-4 text-white" />
+                    <div className="flex h-6 w-6 items-center justify-center rounded-full bg-cyan-500">
+                      <ArrowRight className="h-3 w-3 text-white" />
                     </div>
                   </motion.div>
                 )}
@@ -165,7 +132,7 @@ export function HowItWorks() {
         </div>
 
         {/* Steps - Mobile Layout */}
-        <div className="mx-auto max-w-md space-y-8 md:hidden">
+        <div className="mx-auto max-w-md space-y-6 md:hidden">
           {steps.map((step, index) => (
             <motion.div
               key={step.title}
@@ -173,53 +140,43 @@ export function HowItWorks() {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{
-                duration: 0.6,
-                delay: index * 0.15,
-                ease: [0.22, 1, 0.36, 1],
+                duration: 0.5,
+                delay: index * 0.1,
               }}
               className="relative"
             >
               {/* Connecting line for mobile */}
               {index < steps.length - 1 && (
-                <div className="bg-border absolute top-20 left-10 h-16 w-[2px]">
+                <div className="absolute left-10 top-20 h-12 w-[2px] bg-border">
                   <motion.div
                     initial={{ scaleY: 0 }}
                     whileInView={{ scaleY: 1 }}
                     viewport={{ once: true }}
-                    transition={{ duration: 0.8, delay: index * 0.15 + 0.3 }}
-                    className={`w-full bg-gradient-to-b ${step.gradient} origin-top opacity-60`}
+                    transition={{ duration: 0.6, delay: index * 0.1 + 0.3 }}
+                    className="h-full w-full origin-top bg-cyan-500"
                   />
                 </div>
               )}
 
-              <div className="flex items-start gap-6">
+              <div className="flex items-start gap-5">
                 {/* Icon */}
                 <div className="relative flex-shrink-0">
-                  {/* Subtle glow */}
                   <div
-                    className={`absolute inset-0 rounded-full bg-gradient-to-br ${step.gradient} opacity-10 blur-xl`}
-                  />
+                    className={`flex h-20 w-20 items-center justify-center rounded-full ${step.color}`}
+                  >
+                    <step.icon className="h-7 w-7 text-white" />
+                  </div>
 
-                  <div className="bg-card border-border relative flex h-20 w-20 items-center justify-center rounded-full border-2 shadow-md">
-                    <div
-                      className={`h-14 w-14 rounded-full bg-gradient-to-br ${step.gradient} flex items-center justify-center shadow-lg`}
-                    >
-                      <step.icon className="h-6 w-6 text-white" />
-                    </div>
-
-                    {/* Step number badge */}
-                    <div
-                      className={`absolute -top-1 -right-1 h-7 w-7 rounded-full bg-gradient-to-br ${step.gradient} border-background flex items-center justify-center border-2 text-sm text-white shadow-md`}
-                    >
-                      {step.step}
-                    </div>
+                  {/* Step number badge */}
+                  <div className="absolute -top-1 -right-1 flex h-6 w-6 items-center justify-center rounded-full border-2 border-background bg-cyan-500 text-xs text-white shadow-md">
+                    {step.step}
                   </div>
                 </div>
 
                 {/* Content */}
                 <div className="flex-1 space-y-2 pt-2">
                   <h3 className="text-lg">{step.title}</h3>
-                  <p className="text-muted-foreground text-sm leading-relaxed">
+                  <p className="text-sm leading-relaxed text-muted-foreground">
                     {step.description}
                   </p>
                 </div>

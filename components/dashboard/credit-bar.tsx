@@ -1,4 +1,3 @@
-import React from "react";
 import { motion } from "motion/react";
 import { Coins, TrendingUp, Zap } from "lucide-react";
 import { Card } from "../ui/card";
@@ -9,8 +8,8 @@ interface CreditBarProps {
 }
 
 export function CreditBar({ used, total }: CreditBarProps) {
-  const remaining = total - used;
-  const percentage = (remaining / total) * 100;
+  const remainingCredits = total - used;
+  const percentage = total > 0 ? (remainingCredits / total) * 100 : 0;
 
   // Determine color based on percentage
   const getColorClass = () => {
@@ -43,7 +42,7 @@ export function CreditBar({ used, total }: CreditBarProps) {
                 )}
               </div>
               <p className="text-muted-foreground text-sm">
-                {remaining.toLocaleString()} of {total.toLocaleString()} remaining
+                {remainingCredits} of {total.toLocaleString()} remaining
               </p>
             </div>
           </div>
@@ -51,7 +50,7 @@ export function CreditBar({ used, total }: CreditBarProps) {
             <div
               className={`bg-gradient-to-r text-3xl ${getColorClass()} bg-clip-text text-transparent`}
             >
-              {remaining.toLocaleString()}
+              {remainingCredits}
             </div>
             <p className="text-muted-foreground mt-1 text-xs">available</p>
           </div>
@@ -96,11 +95,15 @@ export function CreditBar({ used, total }: CreditBarProps) {
             <div className="flex items-center gap-4 text-sm">
               <div className="flex items-center gap-1.5">
                 <div className="h-2 w-2 rounded-full bg-gradient-to-r from-[#10b981] to-[#06b6d4]" />
-                <span className="text-muted-foreground">{percentage.toFixed(1)}% remaining</span>
+                <span className="text-muted-foreground">
+                  {percentage.toFixed(1)}% remaining
+                </span>
               </div>
               <div className="flex items-center gap-1.5">
                 <div className="bg-muted h-2 w-2 rounded-full" />
-                <span className="text-muted-foreground">{used.toLocaleString()} used</span>
+                <span className="text-muted-foreground">
+                  {used.toLocaleString()} used
+                </span>
               </div>
             </div>
 

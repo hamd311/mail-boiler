@@ -36,8 +36,12 @@ export function VerificationHistory() {
               className="border-surface-light flex items-center justify-between rounded-lg border p-4"
             >
               <div>
-                <p className="font-medium capitalize">{item.type} Verification</p>
-                <p className="text-muted text-sm">{item.count} email(s) verified</p>
+                <p className="font-medium capitalize">
+                  {item.type} Verification
+                </p>
+                <p className="text-muted text-sm">
+                  {item.count} email(s) verified
+                </p>
               </div>
               <div className="flex items-center gap-4">
                 <div className="text-right">
@@ -55,7 +59,9 @@ export function VerificationHistory() {
             </div>
           ))
         ) : (
-          <p className="text-muted py-8 text-center">No verification history yet</p>
+          <p className="text-muted py-8 text-center">
+            No verification history yet
+          </p>
         )}
       </div>
     </Card>

@@ -21,7 +21,10 @@ export function BulkResultsCard() {
   const invalidCount = results.filter((r) => r.status !== "exists").length;
 
   const handleDownloadResults = () => {
-    const csv = [["Email", "Status"], ...results.map((r) => [r.email, r.status])]
+    const csv = [
+      ["Email", "Status"],
+      ...results.map((r) => [r.email, r.status]),
+    ]
       .map((row) => row.join(","))
       .join("\n");
 
@@ -48,7 +51,10 @@ export function BulkResultsCard() {
     <Card className="border-surface-light bg-surface p-8">
       <div className="mb-6 flex items-center justify-between">
         <h2 className="text-2xl font-bold">Results</h2>
-        <Button onClick={handleDownloadResults} className="bg-primary hover:bg-primary-dark">
+        <Button
+          onClick={handleDownloadResults}
+          className="bg-primary hover:bg-primary-dark"
+        >
           <Download className="mr-2 h-4 w-4" />
           Download CSV
         </Button>
@@ -85,7 +91,9 @@ export function BulkResultsCard() {
               )}
               <span className="text-sm">{result.email}</span>
             </div>
-            <span className="text-muted text-xs capitalize">{result.status}</span>
+            <span className="text-muted text-xs capitalize">
+              {result.status}
+            </span>
           </div>
         ))}
       </div>

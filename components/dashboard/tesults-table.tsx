@@ -1,32 +1,50 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { motion } from "motion/react";
-import { Download, CheckCircle2, XCircle, Search, BarChart3, TrendingUp } from "lucide-react";
+import {
+  Download,
+  CheckCircle2,
+  XCircle,
+  Search,
+  BarChart3,
+  TrendingUp,
+} from "lucide-react";
 import { Card } from "../ui/card";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "../ui/table";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "../ui/table";
 import { Badge } from "../ui/badge";
-
-interface EmailResult {
-  email: string;
-  status: string;
-  timestamp: string;
-}
+import { VerificationResult } from "@/hooks/use-email-verification";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "../ui/tooltip";
 
 interface ResultsTableProps {
-  results: EmailResult[];
+  results: VerificationResult[];
 }
 
 export function ResultsTable({ results }: ResultsTableProps) {
   const [searchQuery, setSearchQuery] = useState("");
 
   const filteredResults = results.filter((result) =>
-    result.email.toLowerCase().includes(searchQuery.toLowerCase())
+    result.email.toLowerCase().includes(searchQuery.toLowerCase()),
   );
 
-  const validCount = results.filter((r) => r.status === "exists" || r.status === "valid").length;
+  const validCount = results.filter(
+    (r) => r.status === "exists" || r.status === "valid",
+  ).length;
   const invalidCount = results.length - validCount;
-  const validPercentage = results.length > 0 ? (validCount / results.length) * 100 : 0;
+  const validPercentage =
+    results.length > 0 ? (validCount / results.length) * 100 : 0;
 
   const handleDownloadCSV = () => {
     if (results.length === 0) {
@@ -34,12 +52,10 @@ export function ResultsTable({ results }: ResultsTableProps) {
     }
 
     // Create CSV content
-    const headers = ["Email", "Status", "Timestamp"];
+    const headers = ["Email", "Status"];
     const csvContent = [
       headers.join(","),
-      ...results.map((result) =>
-        [result.email, result.status, new Date(result.timestamp).toLocaleString()].join(",")
-      ),
+      ...results.map((result) => [result.email, result.status].join(",")),
     ].join("\n");
 
     // Create and download file
@@ -120,8 +136,12 @@ export function ResultsTable({ results }: ResultsTableProps) {
           <div className="rounded-xl border border-blue-200 bg-gradient-to-br from-blue-50 to-cyan-50 p-4 dark:border-blue-800 dark:from-blue-950/30 dark:to-cyan-950/30">
             <div className="flex items-center justify-between">
               <div>
-                <p className="mb-1 text-sm text-blue-600 dark:text-blue-400">Total Verified</p>
-                <p className="text-2xl text-blue-900 dark:text-blue-100">{results.length}</p>
+                <p className="mb-1 text-sm text-blue-600 dark:text-blue-400">
+                  Total Verified
+                </p>
+                <p className="text-2xl text-blue-900 dark:text-blue-100">
+                  {results.length}
+                </p>
               </div>
               <TrendingUp className="h-8 w-8 text-blue-500" />
             </div>
@@ -130,8 +150,12 @@ export function ResultsTable({ results }: ResultsTableProps) {
           <div className="rounded-xl border border-green-200 bg-gradient-to-br from-green-50 to-emerald-50 p-4 dark:border-green-800 dark:from-green-950/30 dark:to-emerald-950/30">
             <div className="flex items-center justify-between">
               <div>
-                <p className="mb-1 text-sm text-green-600 dark:text-green-400">Valid Emails</p>
-                <p className="text-2xl text-green-900 dark:text-green-100">{validCount}</p>
+                <p className="mb-1 text-sm text-green-600 dark:text-green-400">
+                  Valid Emails
+                </p>
+                <p className="text-2xl text-green-900 dark:text-green-100">
+                  {validCount}
+                </p>
               </div>
               <CheckCircle2 className="h-8 w-8 text-green-500" />
             </div>
@@ -140,8 +164,12 @@ export function ResultsTable({ results }: ResultsTableProps) {
           <div className="rounded-xl border border-red-200 bg-gradient-to-br from-red-50 to-rose-50 p-4 dark:border-red-800 dark:from-red-950/30 dark:to-rose-950/30">
             <div className="flex items-center justify-between">
               <div>
-                <p className="mb-1 text-sm text-red-600 dark:text-red-400">Invalid Emails</p>
-                <p className="text-2xl text-red-900 dark:text-red-100">{invalidCount}</p>
+                <p className="mb-1 text-sm text-red-600 dark:text-red-400">
+                  Invalid Emails
+                </p>
+                <p className="text-2xl text-red-900 dark:text-red-100">
+                  {invalidCount}
+                </p>
               </div>
               <XCircle className="h-8 w-8 text-red-500" />
             </div>
@@ -167,13 +195,17 @@ export function ResultsTable({ results }: ResultsTableProps) {
                 <TableRow className="hover:bg-transparent">
                   <TableHead className="h-12">Email</TableHead>
                   <TableHead className="h-12">Status</TableHead>
-                  <TableHead className="h-12 text-right">Timestamp</TableHead>
+                  <TableHead className="h-12">Message</TableHead> {/* NEW */}
                 </TableRow>
               </TableHeader>
+
               <TableBody>
                 {filteredResults.length === 0 ? (
                   <TableRow>
-                    <TableCell colSpan={3} className="text-muted-foreground py-8 text-center">
+                    <TableCell
+                      colSpan={3}
+                      className="text-muted-foreground py-8 text-center"
+                    >
                       No results found
                     </TableCell>
                   </TableRow>
@@ -189,9 +221,13 @@ export function ResultsTable({ results }: ResultsTableProps) {
                       }}
                       className="border-border/50 hover:bg-secondary/30 border-b transition-colors"
                     >
+                      {/* Email */}
                       <TableCell className="py-4">{result.email}</TableCell>
+
+                      {/* Status */}
                       <TableCell className="py-4">
-                        {result.status === "exists" || result.status === "valid" ? (
+                        {result.status === "exists" ||
+                        result.status === "valid" ? (
                           <Badge className="gap-1.5 border-green-200 bg-green-100 text-green-800 hover:bg-green-100 dark:border-green-800 dark:bg-green-900/30 dark:text-green-200 dark:hover:bg-green-900/30">
                             <CheckCircle2 className="h-3.5 w-3.5" />
                             Valid
@@ -203,8 +239,28 @@ export function ResultsTable({ results }: ResultsTableProps) {
                           </Badge>
                         )}
                       </TableCell>
-                      <TableCell className="text-muted-foreground py-4 text-right text-sm">
-                        {new Date(result.timestamp).toLocaleString()}
+
+                      {/* Message (NEW) */}
+                      <TableCell className="py-4 text-muted-foreground text-sm max-w-xs">
+                        {result.message ? (
+                          <TooltipProvider>
+                            <Tooltip>
+                              <TooltipTrigger asChild>
+                                <p
+                                  className="truncate cursor-pointer"
+                                  title={result.message} // fallback tooltip
+                                >
+                                  {result.message}
+                                </p>
+                              </TooltipTrigger>
+                              <TooltipContent className="max-w-xs break-words">
+                                <p>{result.message}</p>
+                              </TooltipContent>
+                            </Tooltip>
+                          </TooltipProvider>
+                        ) : (
+                          "—"
+                        )}
                       </TableCell>
                     </motion.tr>
                   ))

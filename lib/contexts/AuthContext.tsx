@@ -1,14 +1,45 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import React, { createContext, useContext, useState } from "react";
+import {
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+  ReactNode,
+} from "react";
 import { apiFetch } from "@/lib/api";
-import { toast } from "@/hooks/use-toast"; // ✅ correct toast import
+import { toast } from "@/hooks/use-toast";
+import { jwtDecode } from "jwt-decode";
+
+// ----------------------
+// TYPES
+// ----------------------
 
 interface User {
   email: string;
-  credits: number;
-  maxCredits: number;
+  subscription: Subscription;
+}
+
+interface Subscription {
+  is_active: boolean;
+  package_name: string | null;
+  total_credits: number;
+  remaining_credits: number;
+  activation_date: string | null;
+  expiry_date: string | null;
+}
+
+interface MeResponse {
+  user_id: string;
+  username: string;
+  email: string;
+  subscription: Subscription;
+}
+
+interface DecodedToken {
+  email?: string;
+  exp?: number;
 }
 
 interface AuthContextType {
@@ -19,52 +50,146 @@ interface AuthContextType {
     password: string;
     username: string;
   }) => Promise<void>;
-  logout: () => Promise<void>;
-  updateCredits: (amount: number) => void;
+  logout: () => void;
   loading: boolean;
+  fetchMe: () => Promise<void>;
 }
+
+// ----------------------
+// CONTEXT
+// ----------------------
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-export function AuthProvider({ children }: { children: React.ReactNode }) {
+// ----------------------
+// PROVIDER
+// ----------------------
+
+export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(false);
+  const [initializing, setInitializing] = useState(true);
   const router = useRouter();
 
-  // ---- Login ----
+  // ----------------------
+  // Fetch /me profile
+  // ----------------------
+
+  const fetchMe = async () => {
+    try {
+      const res = await apiFetch("/me", {
+        method: "GET",
+        auth: true,
+      });
+
+      if (!res.ok) throw new Error("Unauthorized");
+
+      const data: MeResponse = await res.json();
+
+      setUser({ ...data });
+    } catch (err) {
+      console.error("Failed to fetch /me", err);
+      logout();
+      toast({
+        title: "Session expired",
+        description: "Please log in again.",
+        variant: "destructive",
+      });
+    }
+  };
+
+  // ----------------------
+  // Restore session on reload
+  // ----------------------
+
+  useEffect(() => {
+    const token = localStorage.getItem("mailverify-token");
+
+    if (!token) {
+      setInitializing(false);
+      return;
+    }
+
+    // Check if token expired BEFORE hitting API
+    try {
+      const decoded = jwtDecode<DecodedToken>(token);
+      if (decoded?.exp && decoded.exp * 1000 < Date.now()) {
+        localStorage.removeItem("mailverify-token");
+        setInitializing(false);
+        return;
+      }
+    } catch {}
+
+    // Fetch user profile
+    fetchMe().finally(() => setInitializing(false));
+  }, []);
+
+  // ----------------------
+  // Protect dashboard routes
+  // ----------------------
+
+  useEffect(() => {
+    if (
+      !initializing &&
+      !user &&
+      window.location.pathname.startsWith("/dashboard")
+    ) {
+      router.replace("/login");
+    }
+  }, [initializing, user]);
+
+  // ----------------------
+  // LOGIN
+  // ----------------------
+
   const login = async (email: string, password: string) => {
     setLoading(true);
+
     try {
       const res = await apiFetch("/login", {
         method: "POST",
         body: JSON.stringify({ email, password }),
+        auth: false,
       });
 
       if (!res.ok) {
+        const errorData = await res.json().catch(() => null);
         toast({
           title: "Login failed",
-          description: "Invalid email or password.",
+          description: errorData?.detail || "Invalid credentials.",
           variant: "destructive",
         });
-        throw new Error("Invalid credentials");
+        return;
       }
 
       const data = await res.json();
 
-      setUser(data.user);
-      localStorage.setItem("mailverify-token", data.token);
-      localStorage.setItem("mailverify-user", JSON.stringify(data.user));
+      if (!data.access_token) {
+        toast({
+          title: "Login failed",
+          description: "Something went wrong. Please try again.",
+          variant: "destructive",
+        });
+        return;
+      }
+
+      const token = data.access_token;
+      localStorage.setItem("mailverify-token", token);
+
+      // Fetch profile
+      await fetchMe();
 
       toast({
         title: "Welcome back!",
-        description: "Login successful.",
+        description: "You have logged in successfully.",
       });
+
       router.push("/dashboard");
-    } catch (e) {
-      console.error("Login error:", e);
+    } catch (err) {
+      console.error(err);
       toast({
-        title: "Something went wrong",
-        description: "Unable to log in. Please try again.",
+        title: "Network error",
+        description: "Please check your internet connection.",
         variant: "destructive",
       });
     } finally {
@@ -72,7 +197,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
   };
 
-  // ---- Signup ----
+  // ----------------------
+  // SIGNUP
+  // ----------------------
+
   const signup = async ({
     email,
     password,
@@ -87,32 +215,29 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       const res = await apiFetch("/signup", {
         method: "POST",
         body: JSON.stringify({ email, password, username }),
+        auth: false,
       });
 
       if (!res.ok) {
+        const data = await res.json().catch(() => null);
         toast({
           title: "Signup failed",
-          description: "Could not create your account. Please try again.",
+          description: data?.detail || "Unable to create account.",
           variant: "destructive",
         });
-        throw new Error("Signup failed");
+        return;
       }
-
-      const data = await res.json();
-      setUser(data.user);
-      localStorage.setItem("mailverify-token", data.token);
-      localStorage.setItem("mailverify-user", JSON.stringify(data.user));
 
       toast({
         title: "Account created",
-        description: "Your account was successfully created!",
+        description: "Please log in to continue.",
       });
-      router.push("/dashboard");
-    } catch (e) {
-      console.error("Signup error:", e);
+
+      router.push("/login");
+    } catch {
       toast({
-        title: "Something went wrong",
-        description: "Unable to sign up. Please try again later.",
+        title: "Error",
+        description: "Something went wrong. Try again.",
         variant: "destructive",
       });
     } finally {
@@ -120,46 +245,42 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
   };
 
-  // ---- Logout ----
-  const logout = async () => {
-    try {
-      await apiFetch("/auth/logout", { method: "POST" });
-    } catch {
-      // ignore backend errors
-    } finally {
-      setUser(null);
-      localStorage.removeItem("mailverify-token");
-      localStorage.removeItem("mailverify-user");
-      toast({
-        title: "Logged out",
-        description: "You have been logged out successfully.",
-      });
-      router.push("/login");
-    }
+  // ----------------------
+  // LOGOUT
+  // ----------------------
+
+  const logout = () => {
+    localStorage.removeItem("mailverify-token");
+    setUser(null);
+    router.push("/login");
   };
 
-  // ---- Update credits locally ----
-  const updateCredits = (amount: number) => {
-    setUser((prev) => {
-      if (!prev) return prev;
-      const updated = { ...prev, credits: Math.max(0, prev.credits + amount) };
-      localStorage.setItem("mailverify-user", JSON.stringify(updated));
-      return updated;
-    });
-  };
+  // ----------------------
+  // PROVIDER RETURN
+  // ----------------------
 
   return (
     <AuthContext.Provider
-      value={{ user, login, signup, logout, updateCredits, loading }}
+      value={{
+        user,
+        login,
+        signup,
+        logout,
+        loading,
+        fetchMe: () => fetchMe(),
+      }}
     >
       {children}
     </AuthContext.Provider>
   );
 }
 
-// ---- Hook ----
+// ----------------------
+// HOOK
+// ----------------------
+
 export function useAuth() {
-  const context = useContext(AuthContext);
-  if (!context) throw new Error("useAuth must be used within AuthProvider");
-  return context;
+  const ctx = useContext(AuthContext);
+  if (!ctx) throw new Error("useAuth must be used inside AuthProvider");
+  return ctx;
 }

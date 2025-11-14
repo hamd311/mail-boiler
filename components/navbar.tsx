@@ -24,7 +24,10 @@ export default function Navbar() {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 items-center justify-between">
           {/* Logo */}
-          <button onClick={() => navigate("/")} className="group flex items-center gap-2.5">
+          <button
+            onClick={() => navigate("/")}
+            className="group flex items-center gap-2.5"
+          >
             <div className="relative">
               <div className="absolute inset-0 rounded-xl bg-gradient-to-br from-[#10b981] to-[#3b82f6] opacity-50 blur-md transition-opacity group-hover:opacity-75" />
               <div className="relative flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-[#10b981] to-[#3b82f6] shadow-md">
@@ -50,7 +53,10 @@ export default function Navbar() {
               Pricing
             </NavLink>
             {user && (
-              <NavLink active={pathname === "/dashboard"} onClick={() => navigate("/dashboard")}>
+              <NavLink
+                active={pathname === "/dashboard"}
+                onClick={() => navigate("/dashboard")}
+              >
                 Dashboard
               </NavLink>
             )}
@@ -66,8 +72,9 @@ export default function Navbar() {
               >
                 <Sparkles className="h-4 w-4 text-[#10b981]" />
                 <span className="text-muted-foreground text-sm">Credits:</span>
-                <span className="bg-gradient-to-r from-[#10b981] to-[#06b6d4] bg-clip-text text-sm text-transparent">
-                  {user.credits}/{user.maxCredits}
+                <span className="bg-gradient-to-r from-[#10b981] to-[#06b6d4] bg-clip-text text-sm font-semibold text-transparent">
+                  {user.subscription.remaining_credits} /{" "}
+                  {user.subscription.total_credits}
                 </span>
               </motion.div>
             )}
@@ -114,7 +121,11 @@ export default function Navbar() {
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               className="rounded-xl md:hidden"
             >
-              {mobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+              {mobileMenuOpen ? (
+                <X className="h-5 w-5" />
+              ) : (
+                <Menu className="h-5 w-5" />
+              )}
             </Button>
           </div>
         </div>
@@ -129,7 +140,10 @@ export default function Navbar() {
               className="border-border/40 overflow-hidden border-t md:hidden"
             >
               <div className="space-y-2 py-4">
-                <MobileNavLink active={pathname === "/"} onClick={() => navigate("/")}>
+                <MobileNavLink
+                  active={pathname === "/"}
+                  onClick={() => navigate("/")}
+                >
                   Home
                 </MobileNavLink>
                 <MobileNavLink
@@ -155,9 +169,12 @@ export default function Navbar() {
                     <>
                       <div className="flex items-center gap-2 rounded-lg border border-[#10b981]/20 bg-gradient-to-r from-[#10b981]/10 to-[#06b6d4]/10 px-3 py-2">
                         <Sparkles className="h-4 w-4 text-[#10b981]" />
-                        <span className="text-muted-foreground text-sm">Credits:</span>
+                        <span className="text-muted-foreground text-sm">
+                          Credits:
+                        </span>
                         <span className="bg-gradient-to-r from-[#10b981] to-[#06b6d4] bg-clip-text text-sm text-transparent">
-                          {user.credits}/{user.maxCredits}
+                          {user.subscription.remaining_credits}/
+                          {user.subscription.total_credits}
                         </span>
                       </div>
                       <Button

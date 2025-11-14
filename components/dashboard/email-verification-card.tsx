@@ -32,7 +32,7 @@ export function EmailVerificationCard() {
             Authorization: "Bearer demo-token",
           },
           body: JSON.stringify({ emails: [email] }),
-        }
+        },
       );
 
       const data = await response.json();
@@ -112,7 +112,9 @@ export function EmailVerificationCard() {
                 {getStatusIcon(result.status)}
                 <div>
                   <p className="font-medium">{result.email}</p>
-                  <p className="text-muted text-sm">{getStatusText(result.status)}</p>
+                  <p className="text-muted text-sm">
+                    {getStatusText(result.status)}
+                  </p>
                 </div>
               </div>
               <p className="text-muted text-xs">{result.timestamp}</p>
@@ -133,7 +135,9 @@ export function EmailVerificationCard() {
                     {getStatusIcon(item.status)}
                     <div>
                       <p className="text-sm font-medium">{item.email}</p>
-                      <p className="text-muted text-xs">{getStatusText(item.status)}</p>
+                      <p className="text-muted text-xs">
+                        {getStatusText(item.status)}
+                      </p>
                     </div>
                   </div>
                   <p className="text-muted text-xs">{item.timestamp}</p>

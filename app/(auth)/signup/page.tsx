@@ -85,112 +85,160 @@ export default function SignupPage() {
             </motion.p>
           </div>
 
-          <form onSubmit={handleSubmit(onSubmit)} className="space-y-6 p-8">
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 p-8">
             {/* Username */}
-            <div className="space-y-2">
-              <label htmlFor="name" className="text-sm">
-                User name
+            <div className="space-y-1.5">
+              <label htmlFor="username" className="text-sm">
+                Username
               </label>
-              <div className="group relative">
-                <User className="text-muted-foreground absolute top-1/2 left-3.5 h-5 w-5 -translate-y-1/2 transition-colors group-focus-within:text-[#10b981]" />
-                <Input
-                  id="name"
-                  placeholder="John Doe"
-                  {...register("username")}
-                  className={`bg-secondary/50 border-border/50 h-12 pl-11 transition-all focus:border-[#10b981]/50 focus:ring-[#10b981]/20 ${
-                    errors.username ? "border-red-500" : ""
-                  }`}
-                />
-              </div>
+              <Input
+                id="username"
+                type="text"
+                placeholder="John Doe"
+                {...register("username")}
+                startIcon={
+                  <User className="h-5 w-5 transition-colors group-focus-within:text-[#10b981]" />
+                }
+                className={`h-12 border bg-secondary/50 transition-all focus:ring-0 ${
+                  errors.username
+                    ? "border-red-500 focus-visible:border-red-500 focus-visible:ring-red-500/20"
+                    : "border-border/50 focus-visible:border-[#10b981]/50 focus-visible:ring-[#10b981]/20"
+                }`}
+              />
               {errors.username && (
-                <p className="text-sm text-red-500">
+                <motion.p
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="text-sm text-red-500"
+                >
                   {errors.username.message}
-                </p>
+                </motion.p>
               )}
             </div>
 
             {/* Email */}
-            <div className="space-y-2">
+            <div className="space-y-1.5">
               <label htmlFor="email" className="text-sm">
                 Email
               </label>
-              <div className="group relative">
-                <Mail className="text-muted-foreground absolute top-1/2 left-3.5 h-5 w-5 -translate-y-1/2 transition-colors group-focus-within:text-[#06b6d4]" />
-                <Input
-                  id="email"
-                  type="email"
-                  placeholder="you@example.com"
-                  {...register("email")}
-                  className={`bg-secondary/50 border-border/50 h-12 pl-11 transition-all focus:border-[#06b6d4]/50 focus:ring-[#06b6d4]/20 ${
-                    errors.email ? "border-red-500" : ""
-                  }`}
-                />
-              </div>
+              <Input
+                id="email"
+                type="email"
+                placeholder="you@example.com"
+                {...register("email")}
+                startIcon={
+                  <Mail className="h-5 w-5 transition-colors group-focus-within:text-[#06b6d4]" />
+                }
+                className={`h-12 border bg-secondary/50 transition-all focus:ring-0 ${
+                  errors.email
+                    ? "border-red-500 focus-visible:border-red-500 focus-visible:ring-red-500/20"
+                    : "border-border/50 focus-visible:border-[#06b6d4]/50 focus-visible:ring-[#06b6d4]/20"
+                }`}
+              />
               {errors.email && (
-                <p className="text-sm text-red-500">{errors.email.message}</p>
+                <motion.p
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="text-sm text-red-500"
+                >
+                  {errors.email.message}
+                </motion.p>
               )}
             </div>
 
             {/* Password */}
-            <div className="space-y-2">
+            <div className="space-y-1.5">
               <label htmlFor="password" className="text-sm">
                 Password
               </label>
-              <div className="group relative">
-                <Lock className="text-muted-foreground absolute top-1/2 left-3.5 h-5 w-5 -translate-y-1/2 transition-colors group-focus-within:text-[#3b82f6]" />
-                <Input
-                  id="password"
-                  type="password"
-                  placeholder="••••••••"
-                  {...register("password")}
-                  className={`bg-secondary/50 border-border/50 h-12 pl-11 transition-all focus:border-[#3b82f6]/50 focus:ring-[#3b82f6]/20 ${
-                    errors.password ? "border-red-500" : ""
-                  }`}
-                />
-              </div>
+              <Input
+                id="password"
+                type="password"
+                placeholder="••••••••"
+                {...register("password")}
+                startIcon={
+                  <Lock className="h-5 w-5 transition-colors group-focus-within:text-[#3b82f6]" />
+                }
+                className={`h-12 border bg-secondary/50 transition-all focus:ring-0 ${
+                  errors.password
+                    ? "border-red-500 focus-visible:border-red-500 focus-visible:ring-red-500/20"
+                    : "border-border/50 focus-visible:border-[#3b82f6]/50 focus-visible:ring-[#3b82f6]/20"
+                }`}
+              />
               {errors.password && (
-                <p className="text-sm text-red-500">
+                <motion.p
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="text-sm text-red-500"
+                >
                   {errors.password.message}
-                </p>
+                </motion.p>
               )}
             </div>
 
             {/* Confirm Password */}
-            <div className="space-y-2">
+            <div className="space-y-1.5">
               <label htmlFor="confirmPassword" className="text-sm">
                 Confirm Password
               </label>
-              <div className="group relative">
-                <Lock className="text-muted-foreground absolute top-1/2 left-3.5 h-5 w-5 -translate-y-1/2 transition-colors group-focus-within:text-[#3b82f6]" />
-                <Input
-                  id="confirmPassword"
-                  type="password"
-                  placeholder="••••••••"
-                  {...register("confirmPassword")}
-                  className={`bg-secondary/50 border-border/50 h-12 pl-11 transition-all focus:border-[#3b82f6]/50 focus:ring-[#3b82f6]/20 ${
-                    errors.confirmPassword ? "border-red-500" : ""
-                  }`}
-                />
-              </div>
+              <Input
+                id="confirmPassword"
+                type="password"
+                placeholder="••••••••"
+                {...register("confirmPassword")}
+                startIcon={
+                  <Lock className="h-5 w-5 transition-colors group-focus-within:text-[#3b82f6]" />
+                }
+                className={`h-12 border bg-secondary/50 transition-all focus:ring-0 ${
+                  errors.confirmPassword
+                    ? "border-red-500 focus-visible:border-red-500 focus-visible:ring-red-500/20"
+                    : "border-border/50 focus-visible:border-[#3b82f6]/50 focus-visible:ring-[#3b82f6]/20"
+                }`}
+              />
               {errors.confirmPassword && (
-                <p className="text-sm text-red-500">
+                <motion.p
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="text-sm text-red-500"
+                >
                   {errors.confirmPassword.message}
-                </p>
+                </motion.p>
               )}
             </div>
 
-            {/* ✅ Submit */}
+            {/* Submit */}
             <div className="pt-2">
               <Button
                 type="submit"
                 disabled={isSubmitting || loading}
-                className="group h-12 w-full bg-gradient-to-r from-[#10b981] via-[#06b6d4] to-[#3b82f6] text-white transition-all duration-300 hover:opacity-90 hover:shadow-lg hover:shadow-[#10b981]/25"
+                className="group h-12 w-full bg-gradient-to-r from-[#10b981] via-[#06b6d4] to-[#3b82f6] text-white transition-all duration-300 hover:opacity-90 hover:shadow-lg hover:shadow-[#10b981]/25 disabled:opacity-50"
               >
                 {isSubmitting || loading
                   ? "Creating Account..."
                   : "Create Account"}
                 <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
               </Button>
+            </div>
+
+            <div className="space-y-4 pt-2">
+              <div className="relative">
+                <div className="absolute inset-0 flex items-center">
+                  <div className="w-full border-t border-border/50"></div>
+                </div>
+                <div className="relative flex justify-center text-xs">
+                  <span className="bg-card px-4 text-muted-foreground">or</span>
+                </div>
+              </div>
+
+              <p className="text-center text-sm">
+                Already have an account?{" "}
+                <Link
+                  href="/login"
+                  className="text-[#10b981] transition-colors hover:text-[#06b6d4]"
+                >
+                  Log in
+                </Link>
+              </p>
             </div>
           </form>
         </Card>

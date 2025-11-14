@@ -1,33 +1,42 @@
 "use client";
 
 import { useState } from "react";
-import { useForm } from "react-hook-form";
 import { motion, AnimatePresence } from "motion/react";
-import { Mail, CheckCircle2, XCircle, Loader2, AlertCircle, Sparkles } from "lucide-react";
+import {
+  Mail,
+  CheckCircle2,
+  XCircle,
+  Loader2,
+  AlertCircle,
+  Sparkles,
+} from "lucide-react";
+
+import { useAuth } from "@/lib/contexts/AuthContext";
+import { useForm } from "react-hook-form";
 import { Card } from "../ui/card";
 import { Input } from "../ui/input";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "../ui/tooltip";
 import { Button } from "../ui/button";
 import { Alert, AlertDescription } from "../ui/alert";
-import { useEmailVerification } from "@/hooks/use-email-verification";
-import type { VerifyResponse } from "@/hooks/use-email-verification";
-
-interface SingleVerifierProps {
-  onVerify: (emailCount: number) => void;
-}
+import {
+  useEmailVerification,
+  VerificationResult,
+} from "@/hooks/use-email-verification";
 
 interface FormValues {
   email: string;
 }
 
-// Extend the VerificationResult type from the hook
-type VerificationWithTimestamp = VerifyResponse["results"][number] & {
-  timestamp: string;
-};
-
-export function SingleVerifier({ onVerify }: SingleVerifierProps) {
-  const [result, setResult] = useState<VerificationWithTimestamp | null>(null);
-
+export function SingleVerifier() {
+  const [result, setResult] = useState<VerificationResult | null>(null);
   const { verifyEmail, loading } = useEmailVerification();
+  const { user } = useAuth();
+
   const {
     register,
     handleSubmit,
@@ -40,18 +49,19 @@ export function SingleVerifier({ onVerify }: SingleVerifierProps) {
       const response = await verifyEmail([data.email]);
 
       if (response?.results?.length > 0) {
-        const resultData: VerificationWithTimestamp = {
+        const resultData: VerificationResult = {
           ...response.results[0],
-          timestamp: new Date().toISOString(),
         };
         setResult(resultData);
-        onVerify(1);
         reset();
       }
     } catch (error) {
       console.error("Email verification failed:", error);
     }
   };
+
+  const isButtonDisabled =
+    loading || user?.subscription.remaining_credits === 0;
 
   return (
     <Card className="border-border/50 overflow-hidden shadow-lg backdrop-blur-sm">
@@ -63,7 +73,9 @@ export function SingleVerifier({ onVerify }: SingleVerifierProps) {
               <Mail className="h-5 w-5 text-white" />
             </div>
             <div>
-              <h3 className="text-xl font-semibold">Single Email Verification</h3>
+              <h3 className="text-xl font-semibold">
+                Single Email Verification
+              </h3>
               <p className="text-muted-foreground text-sm">
                 Verify a single email address instantly
               </p>
@@ -72,9 +84,12 @@ export function SingleVerifier({ onVerify }: SingleVerifierProps) {
         </div>
 
         {/* Form */}
-        <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-3 sm:flex-row">
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className="flex flex-col gap-3 sm:flex-row"
+        >
           <div className="group relative flex-1">
-            <Mail className="text-muted-foreground absolute top-1/2 left-4 h-5 w-5 -translate-y-1/2 transition-colors group-focus-within:text-[#06b6d4]" />
+            <Mail className="text-muted-foreground absolute top-1/2 left-4 h-5 w-5 -translate-y-1/2 transition-colors group-focus-within:text-[#06b6d4] z-10 pointer-events-none" />
             <Input
               type="email"
               placeholder="email@example.com"
@@ -85,29 +100,42 @@ export function SingleVerifier({ onVerify }: SingleVerifierProps) {
                   message: "Enter a valid email address",
                 },
               })}
-              className={`bg-secondary/50 border-border/50 h-12 pl-12 transition-all focus:border-[#06b6d4]/50 focus:ring-[#06b6d4]/20 ${
+              className={`bg-secondary/50 border-border/50 h-12 pl-12 transition-all focus:border-[#06b6d4]/50 focus:ring-[#06b6d4]/20 [&:-webkit-autofill]:bg-secondary/50 [&:-webkit-autofill]:shadow-[inset_0_0_0_1000px_hsl(var(--secondary)/0.5)] ${
                 errors.email ? "border-red-500" : ""
               }`}
             />
           </div>
 
-          <Button
-            type="submit"
-            disabled={loading}
-            className="h-12 bg-gradient-to-r from-[#10b981] via-[#06b6d4] to-[#3b82f6] px-8 text-white transition-all duration-300 hover:opacity-90 hover:shadow-lg hover:shadow-[#10b981]/25"
-          >
-            {loading ? (
-              <>
-                <Loader2 className="mr-2 h-5 w-5 animate-spin" />
-                Verifying...
-              </>
-            ) : (
-              <>
-                <Sparkles className="mr-2 h-5 w-5" />
-                Verify Email
-              </>
-            )}
-          </Button>
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <span tabIndex={0}>
+                  <Button
+                    type="submit"
+                    disabled={isButtonDisabled}
+                    className="h-12 bg-gradient-to-r from-[#10b981] via-[#06b6d4] to-[#3b82f6] px-8 text-white transition-all duration-300 hover:opacity-90 hover:shadow-lg hover:shadow-[#10b981]/25 disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    {loading ? (
+                      <>
+                        <Loader2 className="mr-2 h-5 w-5 animate-spin" />
+                        Verifying...
+                      </>
+                    ) : (
+                      <>
+                        <Sparkles className="mr-2 h-5 w-5" />
+                        Verify Email
+                      </>
+                    )}
+                  </Button>
+                </span>
+              </TooltipTrigger>
+              {user?.subscription.remaining_credits === 0 && (
+                <TooltipContent>
+                  <p>Insufficient credits. Please add credits to continue.</p>
+                </TooltipContent>
+              )}
+            </Tooltip>
+          </TooltipProvider>
         </form>
 
         {/* Result */}
@@ -157,21 +185,11 @@ export function SingleVerifier({ onVerify }: SingleVerifierProps) {
                           : "text-red-700 dark:text-red-200"
                       }`}
                     >
-                      {result.status === "exists" || result.status === "valid"
-                        ? "✅ This email address exists and is valid"
-                        : "❌ This email address does not exist or is invalid"}
+                      {result.message ||
+                        (result.status === "exists" || result.status === "valid"
+                          ? "✅ This email address exists and is valid"
+                          : "❌ This email address does not exist or is invalid")}
                     </p>
-                    {result.timestamp && (
-                      <p
-                        className={`text-xs ${
-                          result.status === "exists" || result.status === "valid"
-                            ? "text-green-600 dark:text-green-300"
-                            : "text-red-600 dark:text-red-300"
-                        }`}
-                      >
-                        Verified at {new Date(result.timestamp).toLocaleString()}
-                      </p>
-                    )}
                   </div>
                 </div>
               </div>
