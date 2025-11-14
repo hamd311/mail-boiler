@@ -1,24 +1,28 @@
-
 export const API_BASE_URL =
   process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8002";
 
 export function getAuthToken(): string | null {
-  if (typeof window === "undefined") return null; 
+  if (typeof window === "undefined") return null;
   return localStorage.getItem("mailverify-token");
+}
+
+interface ApiFetchOptions extends RequestInit {
+  auth?: boolean;
 }
 
 export async function apiFetch(
   endpoint: string,
-  options: RequestInit = {}
+  options: ApiFetchOptions = {},
 ): Promise<Response> {
-  const token = getAuthToken();
+  const { auth = true, ...fetchOptions } = options;
+  const token = auth ? getAuthToken() : null;
 
   const res = await fetch(`${API_BASE_URL}${endpoint}`, {
-    ...options,
+    ...fetchOptions,
     headers: {
       "Content-Type": "application/json",
-      ...(token ? { Authorization: `Bearer ${token}` } : {}),
-      ...(options.headers || {}),
+      ...(auth && token ? { Authorization: `Bearer ${token}` } : {}),
+      ...(fetchOptions.headers || {}),
     },
   });
 

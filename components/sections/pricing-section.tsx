@@ -1,6 +1,6 @@
 "use client";
 import { motion } from "motion/react";
-import { Badge, Check, Sparkles } from "lucide-react";
+import { Check, Sparkles } from "lucide-react";
 import { Card, CardContent, CardFooter, CardHeader } from "../ui/card";
 import { Button } from "../ui/button";
 
@@ -21,7 +21,7 @@ const plans = [
   },
   {
     name: "Starter",
-    price: "$29",
+    price: "$10",
     period: "/month",
     description: "For small businesses and startups",
     features: [
@@ -37,7 +37,7 @@ const plans = [
   },
   {
     name: "Pro",
-    price: "$99",
+    price: "$30",
     period: "/month",
     description: "For growing teams and agencies",
     features: [
@@ -53,46 +53,33 @@ const plans = [
     cta: "Start Free Trial",
     popular: false,
   },
-  {
-    name: "Enterprise",
-    price: "Custom",
-    period: "",
-    description: "For large organizations",
-    features: [
-      "Unlimited verifications",
-      "Custom API endpoints",
-      "White-label solution",
-      "SLA guarantee",
-      "On-premise deployment option",
-      "Custom integrations",
-      "Dedicated support team",
-      "Training & onboarding",
-    ],
-    cta: "Contact Sales",
-    popular: false,
-  },
 ];
 
 export function PricingSection() {
   return (
-    <section id="pricing" className="bg-secondary/30 py-20 sm:py-32">
+    <section id="pricing" className="bg-background">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="mb-16 text-center"
+          className="mb-12 text-center"
         >
           <h2 className="mb-4 text-3xl sm:text-4xl lg:text-5xl">
-            Simple, <span className="gradient-text">transparent</span> pricing
+            Simple,{" "}
+            <span className="text-cyan-600 dark:text-cyan-400">
+              transparent
+            </span>{" "}
+            pricing
           </h2>
-          <p className="text-muted-foreground mx-auto max-w-2xl text-lg">
-            Choose the plan that's right for you. All plans include a 14-day free trial.
+          <p className="mx-auto max-w-2xl text-lg text-muted-foreground">
+            Choose the plan that&apos;s right for you. All plans include a
+            14-day free trial.
           </p>
         </motion.div>
 
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {plans.map((plan, index) => (
             <motion.div
               key={plan.name}
@@ -103,45 +90,52 @@ export function PricingSection() {
               className="relative"
             >
               <Card
-                className={`flex h-full flex-col ${
-                  plan.popular ? "scale-105 border-[#10b981] shadow-xl" : "border-border"
+                className={`flex h-full flex-col transition-all duration-300 ${
+                  plan.popular
+                    ? "border-cyan-500 shadow-lg shadow-cyan-500/10"
+                    : "border-border hover:border-cyan-500/30"
                 }`}
               >
-                <CardHeader className="pb-8">
+                <CardHeader className="pb-6">
                   {plan.popular && (
-                    <Badge className="mb-4 w-fit border-0 bg-gradient-to-r from-[#10b981] via-[#06b6d4] to-[#3b82f6] text-white">
-                      <Sparkles className="mr-1 h-3 w-3" />
+                    <div className="mb-4 inline-flex w-fit items-center gap-1.5 rounded-full border border-cyan-500/20 bg-cyan-500/10 px-3 py-1 text-sm text-cyan-600 dark:text-cyan-400">
+                      <Sparkles className="h-3.5 w-3.5" />
                       Most Popular
-                    </Badge>
+                    </div>
                   )}
-                  <h3 className="mb-2">{plan.name}</h3>
-                  <div className="flex items-baseline gap-1">
+                  <h3 className="mb-1 text-lg">{plan.name}</h3>
+                  <div className="mb-2 flex items-baseline gap-1">
                     <span className="text-4xl">{plan.price}</span>
-                    {plan.period && <span className="text-muted-foreground">{plan.period}</span>}
+                    {plan.period && (
+                      <span className="text-muted-foreground">
+                        {plan.period}
+                      </span>
+                    )}
                   </div>
-                  <p className="text-muted-foreground mt-2 text-sm">{plan.description}</p>
+                  <p className="text-sm text-muted-foreground">
+                    {plan.description}
+                  </p>
                 </CardHeader>
 
-                <CardContent className="flex-1">
+                <CardContent className="flex-1 pb-6">
                   <ul className="space-y-3">
                     {plan.features.map((feature) => (
-                      <li key={feature} className="flex items-start gap-2">
-                        <Check className="mt-0.5 h-5 w-5 shrink-0 text-green-500" />
+                      <li key={feature} className="flex items-start gap-2.5">
+                        <Check className="mt-0.5 h-4 w-4 shrink-0 text-cyan-500" />
                         <span className="text-sm">{feature}</span>
                       </li>
                     ))}
                   </ul>
                 </CardContent>
 
-                <CardFooter>
+                <CardFooter className="pt-0">
                   <Button
                     className={`w-full ${
                       plan.popular
-                        ? "bg-gradient-to-r from-[#10b981] via-[#06b6d4] to-[#3b82f6] text-white hover:opacity-90"
-                        : ""
+                        ? "bg-cyan-500 text-white hover:bg-cyan-600"
+                        : "border-border hover:bg-secondary"
                     }`}
                     variant={plan.popular ? "default" : "outline"}
-                    // onClick={() => onNavigate("/signup")}
                   >
                     {plan.cta}
                   </Button>

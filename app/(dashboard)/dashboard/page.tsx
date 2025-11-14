@@ -8,31 +8,14 @@ import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { SingleVerifier } from "@/components/dashboard/single-verifier";
 import { BulkUpload } from "@/components/dashboard/bulk-upload";
-import { ResultsTable } from "@/components/dashboard/tesults-table";
-import { BulkVerifier } from "@/components/dashboard/bulk-verifier";
 import { useRouter } from "next/navigation";
-
-interface EmailResult {
-  email: string;
-  status: string;
-  timestamp: string;
-}
+import { BulkVerifier } from "@/components/dashboard/bulk-verifier";
+import { VerificationResult } from "@/hooks/use-email-verification";
 
 export default function DashboardPage() {
-  const { user, updateCredits } = useAuth();
-  const [results, setResults] = useState<EmailResult[]>([]);
+  const { user } = useAuth();
+  const [results, setResults] = useState<VerificationResult[]>([]);
   const router = useRouter();
-
-  const handleVerify = (emailCount: number) => {
-    if (!user) return;
-
-    if (user.credits < emailCount) {
-      // toast.error("Insufficient credits. Please upgrade your plan.");
-      return;
-    }
-
-    updateCredits(-emailCount);
-  };
 
   useEffect(() => {
     if (!user) {
@@ -40,15 +23,13 @@ export default function DashboardPage() {
     }
   }, [user, router]);
 
-  const handleBulkResults = (newResults: EmailResult[]) => {
+  const handleBulkResults = (newResults: VerificationResult[]) => {
     setResults([...newResults, ...results]);
   };
 
   if (!user) {
     return null;
   }
-
-  const usedCredits = user.maxCredits - user.credits;
 
   return (
     <div className="from-secondary/20 via-background to-secondary/30 relative min-h-screen overflow-hidden bg-gradient-to-br">
@@ -92,11 +73,17 @@ export default function DashboardPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4 }}
           >
-            <CreditBar used={usedCredits} total={user.maxCredits} />
+            <CreditBar
+              used={
+                user.subscription.total_credits -
+                user.subscription.remaining_credits
+              }
+              total={user.subscription.total_credits}
+            />
           </motion.div>
 
           {/* Low Credit Warning */}
-          {user.credits < 10 && (
+          {user.subscription.remaining_credits < 10 && (
             <motion.div
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
@@ -106,9 +93,9 @@ export default function DashboardPage() {
                 <AlertCircle className="h-5 w-5 text-amber-600 dark:text-amber-400" />
                 <AlertDescription className="text-amber-900 dark:text-amber-200">
                   <p>
-                    You&apos;re running low on credits ({user.credits}{" "}
-                    remaining). Consider upgrading your plan to continue
-                    verifying emails.
+                    You&apos;re running low on credits (
+                    {user.subscription.remaining_credits} remaining). Consider
+                    upgrading your plan to continue verifying emails.
                   </p>
                 </AlertDescription>
               </Alert>
@@ -157,33 +144,20 @@ export default function DashboardPage() {
 
               {/* --- Tab Contents --- */}
               <TabsContent value="single" className="space-y-6">
-                <SingleVerifier onVerify={handleVerify} />
+                <SingleVerifier />
               </TabsContent>
 
               <TabsContent value="bulk" className="space-y-6">
-                <BulkUpload
-                  onVerify={handleVerify}
-                  onResults={handleBulkResults}
-                />
+                <BulkUpload onResults={handleBulkResults} />
               </TabsContent>
 
               <TabsContent value="text" className="space-y-6">
-                <BulkVerifier
-                  onVerify={handleVerify}
-                  onResults={handleBulkResults}
-                />
+                <BulkVerifier onResults={handleBulkResults} />
               </TabsContent>
             </Tabs>
           </motion.div>
 
           {/* Results Table */}
-          <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.7 }}
-          >
-            <ResultsTable results={results} />
-          </motion.div>
         </motion.div>
       </div>
     </div>

@@ -82,7 +82,9 @@ export const reducer = (state: State, action: Action): State => {
     case "UPDATE_TOAST":
       return {
         ...state,
-        toasts: state.toasts.map((t) => (t.id === action.toast.id ? { ...t, ...action.toast } : t)),
+        toasts: state.toasts.map((t) =>
+          t.id === action.toast.id ? { ...t, ...action.toast } : t,
+        ),
       };
 
     case "DISMISS_TOAST": {
@@ -106,7 +108,7 @@ export const reducer = (state: State, action: Action): State => {
                 ...t,
                 open: false,
               }
-            : t
+            : t,
         ),
       };
     }
@@ -172,11 +174,13 @@ function toast({ ...props }: Toast) {
   return toast({ ...props });
 };
 (toast as any).error = (props: Toast | string) => {
-  if (typeof props === "string") return toast({ title: props, variant: "destructive" });
+  if (typeof props === "string")
+    return toast({ title: props, variant: "destructive" });
   return toast({ ...props, variant: "destructive" });
 };
 (toast as any).warning = (props: Toast | string) => {
-  if (typeof props === "string") return toast({ title: props, variant: "warning" });
+  if (typeof props === "string")
+    return toast({ title: props, variant: "warning" });
   return toast({ ...props, variant: "warning" });
 };
 
