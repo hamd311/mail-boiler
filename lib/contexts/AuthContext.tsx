@@ -52,6 +52,7 @@ interface AuthContextType {
   }) => Promise<void>;
   logout: () => void;
   loading: boolean;
+  initializing: boolean;
   fetchMe: () => Promise<void>;
 }
 
@@ -88,7 +89,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
       setUser({ ...data });
     } catch (err) {
-      console.error("Failed to fetch /me", err);
       logout();
       toast({
         title: "Session expired",
@@ -120,6 +120,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       }
     } catch {}
 
+    // Fetch user profile
     // Fetch user profile
     fetchMe().finally(() => setInitializing(false));
   }, []);
@@ -267,6 +268,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         signup,
         logout,
         loading,
+        initializing,
         fetchMe: () => fetchMe(),
       }}
     >

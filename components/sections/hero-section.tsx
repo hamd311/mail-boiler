@@ -15,16 +15,17 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import Image from "next/image";
+import { useEmailVerification } from "@/hooks/use-email-verification";
 
 const formSchema = z.object({
   email: z.string().email("Please enter a valid email address"),
 });
 
 export function HeroSection() {
-  const [loading, setLoading] = useState(false);
   const [singleMailResult, setSingleMailResult] = useState<{
     email: string;
     status: string;
+    message: string;
   } | null>(null);
 
   const {
@@ -36,19 +37,12 @@ export function HeroSection() {
     defaultValues: { email: "" },
   });
 
+  const { verifySingleEmail, loading } = useEmailVerification();
+
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    setLoading(true);
-    // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 1500));
-
-    // Mock result - you can replace with actual API call
-    setSingleMailResult({
-      email: values.email,
-      status: values.email.includes("test") ? "invalid" : "valid",
-    });
-    setLoading(false);
+    const response = await verifySingleEmail(values.email);
+    setSingleMailResult(response.result);
   };
-
   return (
     <section className="relative overflow-hidden bg-background pt-15">
       {/* Subtle gradient background */}
@@ -70,7 +64,6 @@ export function HeroSection() {
                 Fast, accurate, and secure
               </span>
             </div>
-
             {/* Heading */}
             <h1 className="mb-6 text-4xl tracking-tight sm:text-5xl lg:text-6xl">
               Check if an email exists{" "}
@@ -78,13 +71,11 @@ export function HeroSection() {
                 instantly.
               </span>
             </h1>
-
             {/* Description */}
             <p className="mb-8 max-w-xl text-lg text-muted-foreground">
               Fast, accurate, and secure email verification API. Validate single
               emails or process thousands in bulk. Start with 100 free credits.
             </p>
-
             {/* Email Verification Form */}
             <form
               onSubmit={handleSubmit(onSubmit)}
@@ -117,7 +108,6 @@ export function HeroSection() {
                 )}
               </Button>
             </form>
-
             {/* Error Message */}
             {errors.email && (
               <motion.p
@@ -128,7 +118,6 @@ export function HeroSection() {
                 {errors.email.message}
               </motion.p>
             )}
-
             {/* Result Display */}
             {singleMailResult && (
               <motion.div
@@ -177,17 +166,6 @@ export function HeroSection() {
                 </div>
               </motion.div>
             )}
-
-            {/* CTA Button */}
-            <div className="flex flex-col gap-4 sm:flex-row">
-              <Button
-                size="lg"
-                className="bg-cyan-500 text-white hover:bg-cyan-600"
-              >
-                Get Started Free
-                <ArrowRight className="ml-2 h-5 w-5" />
-              </Button>
-            </div>
           </motion.div>
 
           {/* Right Column - Visual */}

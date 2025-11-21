@@ -1,5 +1,4 @@
 "use client";
-
 import React, { useState } from "react";
 import { Shield, LogOut, Menu, X, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -11,7 +10,7 @@ import { ThemeToggle } from "./theme-toggle";
 export default function Navbar() {
   const router = useRouter();
   const pathname = usePathname();
-  const { user, logout } = useAuth();
+  const { user, logout, initializing } = useAuth();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const navigate = (path: string) => {
@@ -81,7 +80,7 @@ export default function Navbar() {
 
             <ThemeToggle />
 
-            {user ? (
+            {initializing ? null : user ? (
               <Button
                 variant="outline"
                 size="sm"
@@ -96,21 +95,25 @@ export default function Navbar() {
               </Button>
             ) : (
               <div className="hidden items-center gap-2 sm:flex">
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={() => navigate("/login")}
-                  className="rounded-xl"
-                >
-                  Login
-                </Button>
-                <Button
-                  size="sm"
-                  onClick={() => navigate("/signup")}
-                  className="rounded-xl bg-gradient-to-r from-[#10b981] via-[#06b6d4] to-[#3b82f6] text-white transition-all hover:opacity-90 hover:shadow-lg hover:shadow-[#10b981]/25"
-                >
-                  Sign Up
-                </Button>
+                {!initializing && (
+                  <>
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={() => navigate("/login")}
+                      className="rounded-xl"
+                    >
+                      Login
+                    </Button>
+                    <Button
+                      size="sm"
+                      onClick={() => navigate("/signup")}
+                      className="rounded-xl bg-gradient-to-r from-[#10b981] via-[#06b6d4] to-[#3b82f6] text-white transition-all hover:opacity-90 hover:shadow-lg hover:shadow-[#10b981]/25"
+                    >
+                      Sign Up
+                    </Button>
+                  </>
+                )}
               </div>
             )}
 
@@ -165,7 +168,7 @@ export default function Navbar() {
                 )}
 
                 <div className="border-border/40 space-y-2 border-t pt-4">
-                  {user ? (
+                  {initializing ? null : user ? (
                     <>
                       <div className="flex items-center gap-2 rounded-lg border border-[#10b981]/20 bg-gradient-to-r from-[#10b981]/10 to-[#06b6d4]/10 px-3 py-2">
                         <Sparkles className="h-4 w-4 text-[#10b981]" />

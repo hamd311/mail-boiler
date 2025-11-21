@@ -22,7 +22,7 @@ import {
   useEmailVerification,
   VerificationResult,
 } from "@/hooks/use-email-verification";
-import { ResultsTable } from "./tesults-table";
+import { ResultsTable } from "./results-table";
 
 interface BulkUploadProps {
   onResults: (results: VerificationResult[]) => void;

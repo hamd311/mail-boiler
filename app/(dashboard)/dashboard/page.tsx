@@ -1,24 +1,24 @@
 "use client";
 import { useEffect, useState } from "react";
 import { motion } from "motion/react";
-import { AlertCircle, Zap, Upload, FileText } from "lucide-react";
+import { Zap, Upload, FileText } from "lucide-react";
 import { useAuth } from "@/lib/contexts/AuthContext";
-import { CreditBar } from "@/components/dashboard/credit-bar";
-import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { SingleVerifier } from "@/components/dashboard/single-verifier";
 import { BulkUpload } from "@/components/dashboard/bulk-upload";
 import { useRouter } from "next/navigation";
 import { BulkVerifier } from "@/components/dashboard/bulk-verifier";
 import { VerificationResult } from "@/hooks/use-email-verification";
+import { DashboardHeader } from "@/components/dashboard/dashboard-header";
 
 export default function DashboardPage() {
   const { user } = useAuth();
+  const { initializing } = useAuth();
   const [results, setResults] = useState<VerificationResult[]>([]);
   const router = useRouter();
 
   useEffect(() => {
-    if (!user) {
+    if (!initializing && !user) {
       router.replace("/");
     }
   }, [user, router]);
@@ -32,7 +32,7 @@ export default function DashboardPage() {
   }
 
   return (
-    <div className="from-secondary/20 via-background to-secondary/30 relative min-h-screen overflow-hidden bg-gradient-to-br">
+    <div className="flex-1 from-secondary/20 via-background to-secondary/30 relative overflow-hidden bg-gradient-to-br min-h-0">
       {/* Decorative background elements */}
       <div className="absolute top-0 right-0 h-[500px] w-[500px] rounded-full bg-gradient-to-bl from-[#10b981]/10 via-[#06b6d4]/5 to-transparent blur-3xl" />
       <div className="absolute bottom-0 left-0 h-[500px] w-[500px] rounded-full bg-gradient-to-tr from-[#3b82f6]/10 via-[#06b6d4]/5 to-transparent blur-3xl" />
@@ -45,62 +45,15 @@ export default function DashboardPage() {
           className="space-y-8"
         >
           {/* Header */}
-          <div className="space-y-2">
-            <motion.h1
-              className="text-4xl"
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 0.2 }}
-            >
-              Welcome back,{" "}
-              <span className="bg-gradient-to-r from-[#10b981] via-[#06b6d4] to-[#3b82f6] bg-clip-text text-transparent">
-                {user.email.split("@")[0]}
-              </span>
-            </motion.h1>
-            <motion.p
-              className="text-muted-foreground text-lg"
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 0.3 }}
-            >
-              Verify emails and manage your account
-            </motion.p>
-          </div>
 
-          {/* Credit Bar */}
-          <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.4 }}
-          >
-            <CreditBar
-              used={
-                user.subscription.total_credits -
-                user.subscription.remaining_credits
-              }
-              total={user.subscription.total_credits}
-            />
-          </motion.div>
-
-          {/* Low Credit Warning */}
-          {user.subscription.remaining_credits < 10 && (
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.5 }}
-            >
-              <Alert className="border-amber-200 bg-gradient-to-r from-amber-50 to-orange-50 dark:border-amber-900 dark:from-amber-950 dark:to-orange-950">
-                <AlertCircle className="h-5 w-5 text-amber-600 dark:text-amber-400" />
-                <AlertDescription className="text-amber-900 dark:text-amber-200">
-                  <p>
-                    You&apos;re running low on credits (
-                    {user.subscription.remaining_credits} remaining). Consider
-                    upgrading your plan to continue verifying emails.
-                  </p>
-                </AlertDescription>
-              </Alert>
-            </motion.div>
-          )}
+          <DashboardHeader
+            userName={user.email.split("@")[0]}
+            totalCredits={user.subscription.total_credits}
+            usedCredits={
+              user.subscription.total_credits -
+              user.subscription.remaining_credits
+            }
+          />
 
           {/* Main Content Tabs */}
           <motion.div
@@ -156,8 +109,6 @@ export default function DashboardPage() {
               </TabsContent>
             </Tabs>
           </motion.div>
-
-          {/* Results Table */}
         </motion.div>
       </div>
     </div>

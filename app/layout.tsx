@@ -5,7 +5,6 @@ import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
 import { ThemeProvider } from "@/components/theme-provider";
 import { AuthProvider } from "@/lib/contexts/AuthContext";
-import Navbar from "@/components/navbar";
 
 const geist = Geist({
   subsets: ["latin"],
@@ -14,7 +13,6 @@ const geist = Geist({
 export const metadata: Metadata = {
   title: "MailVerify - Email Verification Platform",
   description: "Fast, accurate, and secure email verification API",
-  generator: "v0.app",
 };
 
 export default function RootLayout({
@@ -27,7 +25,6 @@ export default function RootLayout({
       <body className={`${geist.className} bg-background text-foreground`}>
         <AuthProvider>
           <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
-            <Navbar />
             {children}
             <Toaster />
           </ThemeProvider>
