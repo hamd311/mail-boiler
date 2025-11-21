@@ -4,9 +4,9 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "next dev -p 3000",
+    "dev": "next de",
     "build": "next build",
-    "start": "next start -p 3000",
+    "start": "next start -p 3001",
     "lint": "eslint . --fix",
     "format": "prettier --write \"**/*.{js,jsx,ts,tsx,md,json,css,scss}\""
   },
