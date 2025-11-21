@@ -39,6 +39,13 @@
   --sidebar-ring: oklch(0.708 0 0);
 }
 
+/* Ensure the app and body fill the viewport so flex children can use 100% height */
+html,
+body,
+#__next {
+  height: 100%;
+}
+
 .dark {
   --background: oklch(0.145 0 0);
   --foreground: oklch(0.985 0 0);
