@@ -52,9 +52,17 @@ export function usePayments() {
   // --------------------------------------------------
   // HANDLE STRIPE CHECKOUT (NEW)
   // --------------------------------------------------
-  const createCheckoutSession = async (package_id: string): Promise<CheckoutResult | null> => {
+  const createCheckoutSession = async (package_id: string,planName:string): Promise<CheckoutResult | null> => {
     if (!user) {
       router.push(`/login?plan=${package_id}`);
+      return null;
+    }
+    if(planName ==='free'){
+      toast({
+        title: "You are already on the Free plan",
+        description: "No need to checkout for the Free plan.",
+        variant: "destructive",
+      })
       return null;
     }
 

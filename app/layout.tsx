@@ -13,6 +13,31 @@ const geist = Geist({
 export const metadata: Metadata = {
   title: "MailVerify - Email Verification Platform",
   description: "Fast, accurate, and secure email verification API",
+  icons: {
+    icon: "/favicon.ico",
+    shortcut: "/apple-icon.png",
+    apple: "/apple-icon.png",
+    other: [
+      {
+        rel: "icon",
+        type: "image/svg+xml",
+        url: "/icon0.svg",
+      },
+      {
+        rel: "icon",
+        type: "image/png",
+        sizes: "192x192",
+        url: "/web-app-manifest-192x192.png",
+      },
+      {
+        rel: "icon",
+        type: "image/png",
+        sizes: "512x512",
+        url: "/web-app-manifest-512x512.png",
+      },
+    ],
+  },
+  // ------------------------------------
 };
 
 export default function RootLayout({
