@@ -50,7 +50,7 @@ export function PricingSection() {
     const id = plan.raw?.id ?? null;
     setSelectedPlanId(id);
     try {
-      await createCheckoutSession(id);
+      await createCheckoutSession(id, plan.name);
     } finally {
       setSelectedPlanId(null);
     }

@@ -1,4 +1,6 @@
-import { Shield, Github, Twitter, Linkedin } from "lucide-react";
+import { Github, Twitter, Linkedin } from "lucide-react";
+import { Logo } from "./ui/logo";
+import Link from "next/link";
 
 export function Footer() {
   const date = new Date();
@@ -9,14 +11,7 @@ export function Footer() {
         <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
           {/* Brand */}
           <div className="flex flex-col space-y-3">
-            <div className="flex items-center gap-2.5">
-              <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-cyan-500">
-                <Shield className="h-5 w-5 text-white" />
-              </div>
-              <span className="text-lg text-cyan-600 dark:text-cyan-400">
-                MailVerify
-              </span>
-            </div>
+            <Logo />
             <p className="max-w-xs text-sm text-muted-foreground">
               Fast, accurate, and secure email verification API. Validate emails
               with confidence.
@@ -28,33 +23,20 @@ export function Footer() {
             <h4 className="mb-3 text-sm">Product</h4>
             <ul className="space-y-2">
               <li>
-                <button className="text-sm text-muted-foreground transition-colors hover:text-foreground">
+                <a
+                  href="#features"
+                  className="text-sm text-muted-foreground hover:text-foreground"
+                >
                   Features
-                </button>
+                </a>
               </li>
+
               <li>
-                {/* Server Components cannot access document; replace scroll logic with a link or remove */}
                 <a
                   href="#pricing"
                   className="text-sm text-muted-foreground transition-colors hover:text-foreground"
                 >
                   Pricing
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#"
-                  className="text-sm text-muted-foreground transition-colors hover:text-foreground"
-                >
-                  API Documentation
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#"
-                  className="text-sm text-muted-foreground transition-colors hover:text-foreground"
-                >
-                  Changelog
                 </a>
               </li>
             </ul>
@@ -65,36 +47,21 @@ export function Footer() {
             <h4 className="mb-3 text-sm">Company</h4>
             <ul className="space-y-2">
               <li>
-                <a
-                  href="#"
+                <Link
+                  href="/about"
                   className="text-sm text-muted-foreground transition-colors hover:text-foreground"
                 >
                   About Us
-                </a>
+                </Link>
               </li>
+
               <li>
-                <a
-                  href="#"
-                  className="text-sm text-muted-foreground transition-colors hover:text-foreground"
-                >
-                  Blog
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#"
-                  className="text-sm text-muted-foreground transition-colors hover:text-foreground"
-                >
-                  Careers
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#"
+                <Link
+                  href="/contact"
                   className="text-sm text-muted-foreground transition-colors hover:text-foreground"
                 >
                   Contact
-                </a>
+                </Link>
               </li>
             </ul>
           </div>
@@ -104,36 +71,20 @@ export function Footer() {
             <h4 className="mb-3 text-sm">Legal</h4>
             <ul className="space-y-2">
               <li>
-                <a
-                  href="#"
+                <Link
+                  href="/privacy-policy"
                   className="text-sm text-muted-foreground transition-colors hover:text-foreground"
                 >
                   Privacy Policy
-                </a>
+                </Link>
               </li>
               <li>
-                <a
-                  href="#"
+                <Link
+                  href="/terms-conditions"
                   className="text-sm text-muted-foreground transition-colors hover:text-foreground"
                 >
                   Terms of Service
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#"
-                  className="text-sm text-muted-foreground transition-colors hover:text-foreground"
-                >
-                  Cookie Policy
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#"
-                  className="text-sm text-muted-foreground transition-colors hover:text-foreground"
-                >
-                  Security
-                </a>
+                </Link>
               </li>
             </ul>
           </div>
@@ -141,7 +92,7 @@ export function Footer() {
 
         <div className="mt-10 flex flex-col items-center justify-between gap-4 border-t border-border pt-6 sm:flex-row">
           <p className="text-sm text-muted-foreground">
-            © {date.getFullYear()} MailVerify. All rights reserved.
+            © {date.getFullYear()} MailBoiler. All rights reserved.
           </p>
 
           <div className="flex items-center gap-4">

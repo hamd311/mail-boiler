@@ -6,6 +6,9 @@ import { useAuth } from "@/lib/contexts/AuthContext";
 import { motion, AnimatePresence } from "motion/react";
 import { useRouter, usePathname } from "next/navigation";
 import { ThemeToggle } from "./theme-toggle";
+import Image from "next/image";
+import Link from "next/link";
+import { Logo } from "./ui/logo";
 
 export default function Navbar() {
   const router = useRouter();
@@ -18,39 +21,26 @@ export default function Navbar() {
     setMobileMenuOpen(false);
   };
 
+  const handlePricingClick = () => {
+    if (pathname === "/") {
+      const el = document.getElementById("pricing");
+      if (el) el.scrollIntoView({ behavior: "smooth" });
+    } else {
+      router.push("/?scrollTo=pricing");
+    }
+  };
+
   return (
     <nav className="border-border/40 bg-background/60 sticky top-0 z-50 w-full border-b shadow-sm backdrop-blur-xl">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 items-center justify-between">
           {/* Logo */}
-          <button
-            onClick={() => navigate("/")}
-            className="group flex items-center gap-2.5"
-          >
-            <div className="relative">
-              <div className="absolute inset-0 rounded-xl bg-gradient-to-br from-[#10b981] to-[#3b82f6] opacity-50 blur-md transition-opacity group-hover:opacity-75" />
-              <div className="relative flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-[#10b981] to-[#3b82f6] shadow-md">
-                <Shield className="h-6 w-6 text-white" />
-              </div>
-            </div>
-            <span className="bg-gradient-to-r from-[#10b981] via-[#06b6d4] to-[#3b82f6] bg-clip-text text-xl font-bold text-transparent">
-              MailVerify
-            </span>
-          </button>
-
-          {/* Desktop Navigation */}
+          <Logo />
           <div className="hidden items-center gap-1 md:flex">
             <NavLink active={pathname === "/"} onClick={() => navigate("/")}>
               Home
             </NavLink>
-            <NavLink
-              onClick={() => {
-                const el = document.getElementById("pricing");
-                if (el) el.scrollIntoView({ behavior: "smooth" });
-              }}
-            >
-              Pricing
-            </NavLink>
+            <NavLink onClick={handlePricingClick}>Pricing</NavLink>
             {user && (
               <NavLink
                 active={pathname === "/dashboard"}

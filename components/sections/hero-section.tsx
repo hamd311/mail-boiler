@@ -1,4 +1,5 @@
 "use client";
+
 import { motion } from "motion/react";
 import {
   ArrowRight,
@@ -12,14 +13,30 @@ import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useState } from "react";
+import { useEffect, useState, Suspense } from "react";
 import { useForm } from "react-hook-form";
 import Image from "next/image";
 import { useEmailVerification } from "@/hooks/use-email-verification";
+import { useSearchParams } from "next/navigation";
 
 const formSchema = z.object({
   email: z.string().email("Please enter a valid email address"),
 });
+
+// 🔥 FIX: Component that uses useSearchParams
+function ScrollHandler() {
+  const searchParams = useSearchParams();
+
+  useEffect(() => {
+    const scrollTo = searchParams.get("scrollTo");
+    if (scrollTo) {
+      const el = document.getElementById(scrollTo);
+      if (el) el.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [searchParams]);
+
+  return null;
+}
 
 export function HeroSection() {
   const [singleMailResult, setSingleMailResult] = useState<{
@@ -43,14 +60,20 @@ export function HeroSection() {
     const response = await verifySingleEmail(values.email);
     setSingleMailResult(response.result);
   };
+
   return (
     <section className="relative overflow-hidden bg-background pt-15">
-      {/* Subtle gradient background */}
+      {/* 🔥 FIX: Suspense wrapper inside the component */}
+      <Suspense fallback={null}>
+        <ScrollHandler />
+      </Suspense>
+
+      {/* Background */}
       <div className="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-cyan-100/20 via-background to-background dark:from-cyan-950/20" />
 
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
-          {/* Left Column - Text & CTA */}
+          {/* Left Column */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -64,19 +87,20 @@ export function HeroSection() {
                 Fast, accurate, and secure
               </span>
             </div>
-            {/* Heading */}
+
             <h1 className="mb-6 text-4xl tracking-tight sm:text-5xl lg:text-6xl">
               Check if an email exists{" "}
               <span className="text-cyan-600 dark:text-cyan-400">
                 instantly.
               </span>
             </h1>
-            {/* Description */}
+
             <p className="mb-8 max-w-xl text-lg text-muted-foreground">
               Fast, accurate, and secure email verification API. Validate single
               emails or process thousands in bulk. Start with 100 free credits.
             </p>
-            {/* Email Verification Form */}
+
+            {/* Form */}
             <form
               onSubmit={handleSubmit(onSubmit)}
               className="mb-4 flex flex-col gap-3 sm:flex-row"
@@ -93,6 +117,7 @@ export function HeroSection() {
                   }`}
                 />
               </div>
+
               <Button
                 type="submit"
                 disabled={loading}
@@ -108,7 +133,8 @@ export function HeroSection() {
                 )}
               </Button>
             </form>
-            {/* Error Message */}
+
+            {/* Error Msg */}
             {errors.email && (
               <motion.p
                 initial={{ opacity: 0, y: -10 }}
@@ -118,7 +144,8 @@ export function HeroSection() {
                 {errors.email.message}
               </motion.p>
             )}
-            {/* Result Display */}
+
+            {/* Result Box */}
             {singleMailResult && (
               <motion.div
                 initial={{ opacity: 0, y: -10 }}
@@ -168,7 +195,7 @@ export function HeroSection() {
             )}
           </motion.div>
 
-          {/* Right Column - Visual */}
+          {/* Right Column */}
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
@@ -183,7 +210,7 @@ export function HeroSection() {
                 fill
               />
 
-              {/* Floating stats cards */}
+              {/* Floating Cards */}
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -207,7 +234,7 @@ export function HeroSection() {
               </motion.div>
             </div>
 
-            {/* Decorative gradient blur */}
+            {/* Gradient blobs */}
             <div className="absolute -bottom-20 -right-20 -z-10 h-64 w-64 rounded-full bg-cyan-500/20 blur-3xl" />
             <div className="absolute -top-20 -left-20 -z-10 h-64 w-64 rounded-full bg-blue-500/20 blur-3xl" />
           </motion.div>
