@@ -11,7 +11,7 @@ const geist = Geist({
 });
 
 export const metadata: Metadata = {
-  title: "MailVerify - Email Verification Platform",
+  title: "MailBoiler - Email Verification Platform",
   description: "Fast, accurate, and secure email verification API",
   icons: {
     icon: "/favicon.ico",

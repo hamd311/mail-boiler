@@ -84,7 +84,7 @@ export function HeroSection() {
             <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-border bg-secondary/50 px-4 py-1.5 backdrop-blur-sm">
               <div className="h-2 w-2 animate-pulse rounded-full bg-cyan-500" />
               <span className="text-sm text-muted-foreground">
-                Fast, accurate, and secure
+                Fast, secure, and cheap
               </span>
             </div>
 
@@ -96,8 +96,8 @@ export function HeroSection() {
             </h1>
 
             <p className="mb-8 max-w-xl text-lg text-muted-foreground">
-              Fast, accurate, and secure email verification API. Validate single
-              emails or process thousands in bulk. Start with 100 free credits.
+              Fast, secure, and cheap email verification API. Validate single
+              emails or process thousands in bulk. Start with 120 free credits.
             </p>
 
             {/* Form */}

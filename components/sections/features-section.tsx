@@ -7,38 +7,31 @@ const features = [
   {
     icon: Zap,
     title: "Lightning Fast",
-    description:
-      "Verify emails in milliseconds with our optimized infrastructure.",
     color: "bg-cyan-500",
   },
   {
     icon: Database,
     title: "Bulk Verification",
-    description: "Upload and verify thousands of emails at once with ease.",
     color: "bg-blue-500",
   },
   {
     icon: Shield,
     title: "Secure & Private",
-    description: "Your data is encrypted and never shared with third parties.",
     color: "bg-purple-500",
   },
   {
     icon: BarChart3,
     title: "Real-Time Results",
-    description: "Get instant feedback on email validity and deliverability.",
     color: "bg-emerald-500",
   },
   {
     icon: Clock,
     title: "24/7 Availability",
-    description: "Our API is always online and ready to serve your requests.",
     color: "bg-sky-500",
   },
   {
     icon: Code,
-    title: "Developer Friendly",
-    description: "Simple REST API with comprehensive documentation and SDKs.",
+    title: "Users Friendly",
     color: "bg-indigo-500",
   },
 ];
@@ -61,7 +54,7 @@ export function Features() {
 
           <h2 className="mb-4 text-3xl sm:text-4xl lg:text-5xl">
             Why choose{" "}
-            <span className="text-cyan-600 dark:text-cyan-400">MailVerify</span>
+            <span className="text-cyan-600 dark:text-cyan-400">MailBoiler</span>
             ?
           </h2>
           <p className="mx-auto max-w-2xl text-lg text-muted-foreground">
@@ -95,9 +88,6 @@ export function Features() {
                 {/* Content */}
                 <div>
                   <h3 className="mb-2 text-xl">{feature.title}</h3>
-                  <p className="text-sm leading-relaxed text-muted-foreground">
-                    {feature.description}
-                  </p>
                 </div>
               </Card>
             </motion.div>
@@ -113,7 +103,7 @@ export function Features() {
           className="mt-12 text-center"
         >
           <p className="mb-4 text-muted-foreground">
-            Ready to get started with MailVerify?
+            Ready to get started with MailBoiler?
           </p>
           <div className="flex flex-col items-center justify-center gap-4 sm:flex-row">
             <div className="flex items-center gap-2">
