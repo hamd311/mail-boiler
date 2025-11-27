@@ -12,9 +12,9 @@ export function Footer() {
           {/* Brand */}
           <div className="flex flex-col space-y-3">
             <Logo />
-            <p className="max-w-xs text-sm text-muted-foreground">
-              Fast, accurate, and secure email verification API. Validate emails
-              with confidence.
+            <p className="mb-8 max-w-xl text-lg text-muted-foreground">
+              Fast, secure, and reliable email verification service. Check
+              individual emails or bulk lists with ease.
             </p>
           </div>
 

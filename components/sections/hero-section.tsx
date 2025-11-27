@@ -96,8 +96,8 @@ export function HeroSection() {
             </h1>
 
             <p className="mb-8 max-w-xl text-lg text-muted-foreground">
-              Fast, secure, and cheap email verification API. Validate single
-              emails or process thousands in bulk. Start with 120 free credits.
+              Fast, secure, and reliable email verification service. Check
+              individual emails or bulk lists with ease.
             </p>
 
             {/* Form */}
