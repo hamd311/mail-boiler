@@ -234,6 +234,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           title: "Verification email sent",
           description: "Please check your inbox to verify your account.",
         });
+
+        router.push("/login");
         return;
       }
 
