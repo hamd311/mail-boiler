@@ -165,10 +165,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
       const data = await res.json();
 
-      if (!data.access_token) {
+      if (data.message && data.message !== "Login successful") {
         toast({
           title: "Login failed",
-          description: "Something went wrong. Please try again.",
+          description: data.message,
           variant: "destructive",
         });
         return;
@@ -228,10 +228,19 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         });
         return;
       }
+      const data = await res.json();
+      if (data.email_sent) {
+        toast({
+          title: "Verification email sent",
+          description: "Please check your inbox to verify your account.",
+        });
+        return;
+      }
 
       toast({
+        variant: "destructive",
         title: "Account created",
-        description: "Please log in to continue.",
+        description: "Account created successfully. Please log in to continue.",
       });
 
       router.push("/login");

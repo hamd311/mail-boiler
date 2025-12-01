@@ -17,6 +17,7 @@ import {
   XCircle,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useAuth } from "@/lib/contexts/AuthContext";
 
 export default function PaymentSuccessClient() {
   const searchParams = useSearchParams();
@@ -30,6 +31,7 @@ export default function PaymentSuccessClient() {
   const [alreadyProcessed, setAlreadyProcessed] = useState(false);
   const [subscriptionInfo, setSubscriptionInfo] = useState<any>(null);
   const [message, setMessage] = useState<string>("");
+  const { fetchMe } = useAuth();
 
   const onNavigateToDashboard = () => router.replace("/dashboard");
 
@@ -54,6 +56,7 @@ export default function PaymentSuccessClient() {
         if (data.payment_status === "paid") {
           setSuccess(true);
           setSubscriptionInfo(data.subscription);
+          fetchMe();
           toast({ title: "Payment Successful!" });
         } else if (data.payment_status === "already_processed") {
           setSuccess(true);

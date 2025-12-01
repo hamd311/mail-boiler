@@ -33,7 +33,7 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="from-secondary/30 via-background to-secondary/20 relative flex min-h-[calc(100vh-4.5rem)] items-center justify-center overflow-hidden bg-gradient-to-br px-4 py-12 sm:px-6 lg:px-8">
+    <div className="from-secondary/30 via-background to-secondary/20 relative flex min-h-[100vh] items-center justify-center overflow-hidden bg-gradient-to-br px-4 py-12 sm:px-6 lg:px-8">
       {/* Decorative gradient orbs */}
       <div className="absolute top-0 left-0 h-96 w-96 rounded-full bg-gradient-to-br from-[#10b981]/20 to-transparent blur-3xl" />
       <div className="absolute right-0 bottom-0 h-96 w-96 rounded-full bg-gradient-to-tl from-[#3b82f6]/20 to-transparent blur-3xl" />
