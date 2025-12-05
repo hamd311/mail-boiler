@@ -1,4 +1,4 @@
-# 📧 Mail Verify
+# 📧 MailBoiler 
 
 A Next.js + TypeScript application for fast and accurate bulk email verification, featuring a modern UI built with Shadcn, TailwindCSS, and seamless UX powered by React Query and React Hook Form.
 

@@ -7,9 +7,10 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Card } from "@/components/ui/card";
+import { Card, CardHeader } from "@/components/ui/card";
 import { Mail, Lock, User, ArrowRight, Shield } from "lucide-react";
 import { useAuth } from "@/lib/contexts/AuthContext";
+import { Logo } from "@/components/ui/logo";
 
 // ✅ Zod validation schema
 const signupSchema = z
@@ -62,15 +63,20 @@ export default function SignupPage() {
         className="relative z-10 w-full max-w-md"
       >
         <Card className="border-border/50 shadow-xl backdrop-blur-sm sm:min-w-lg">
-          <div className="text-center">
-            <motion.div
-              className="mb-6 inline-flex h-20 w-20 items-center justify-center rounded-3xl bg-gradient-to-br from-[#10b981] via-[#06b6d4] to-[#3b82f6] shadow-lg shadow-[#10b981]/20"
-              initial={{ scale: 0.8, rotate: -10 }}
-              animate={{ scale: 1, rotate: 0 }}
-              transition={{ duration: 0.5, delay: 0.2 }}
+          <CardHeader className=" border-b">
+            <Link
+              href="/"
+              className="inline-flex items-center gap-2 text-sm text-muted-foreground transition-colors hover:text-foreground"
             >
-              <Shield className="h-10 w-10 text-white" />
-            </motion.div>
+              <ArrowRight className="h-4 w-4 rotate-180" />
+              Back to Home
+            </Link>
+          </CardHeader>
+          <div className="flex justify-center">
+            <Logo size="md" />
+          </div>
+
+          <div className="text-center">
             <motion.h1
               className="mb-3 text-4xl"
               initial={{ opacity: 0 }}
@@ -158,7 +164,7 @@ export default function SignupPage() {
               <Input
                 id="password"
                 type="password"
-                placeholder="••••••••"
+                placeholder="password"
                 {...register("password")}
                 startIcon={
                   <Lock className="h-5 w-5 transition-colors group-focus-within:text-[#3b82f6]" />
@@ -188,7 +194,7 @@ export default function SignupPage() {
               <Input
                 id="confirmPassword"
                 type="password"
-                placeholder="••••••••"
+                placeholder="Confirm Password"
                 {...register("confirmPassword")}
                 startIcon={
                   <Lock className="h-5 w-5 transition-colors group-focus-within:text-[#3b82f6]" />
