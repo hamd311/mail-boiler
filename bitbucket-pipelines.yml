@@ -23,4 +23,4 @@ pipelines:
             - chmod 600 ~/.ssh/id_rsa
             - ssh-keyscan -H 18.204.155.59 >> ~/.ssh/known_hosts
             - echo "Triggering deployment on EC2..."
-            - ssh -i ~/.ssh/id_rsa ubuntu@18.204.155.59 'bash /home/ubuntu/verify_mail_Dev/mail_verify_fe/deploy.sh'
+            - ssh -i ~/.ssh/id_rsa ubuntu@18.204.155.59 'bash /home/ubuntu/mailboiler-dev/mail_verify_fe/deploy.sh'
