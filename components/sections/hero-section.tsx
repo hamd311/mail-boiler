@@ -205,7 +205,7 @@ export function HeroSection() {
             <div className="relative aspect-[4/3] overflow-hidden rounded-2xl">
               <Image
                 src="https://images.unsplash.com/photo-1593642532400-2682810df593?w=1200&auto=format&fit=crop&q=80"
-                alt="Email verification dashboard preview"
+                alt="Email verification service"
                 className="h-full w-full object-cover"
                 fill
               />

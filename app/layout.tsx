@@ -11,8 +11,10 @@ const geist = Geist({
 });
 
 export const metadata: Metadata = {
-  title: "MailBoiler - Email Verification Platform",
-  description: "Fast, accurate, and secure email verification services.",
+  title:
+    "MailBoiler - Email Verification Service | Check If Email Address Exists",
+  description:
+    "Mail Boiler is a fast and accurate email verification service that helps you check if email addresses exist, reduce bounce rates, and improve deliverability. Try our real-time email checker and bulk verification API.",
   icons: {
     icon: "/favicon.ico",
     shortcut: "/apple-icon.png",
