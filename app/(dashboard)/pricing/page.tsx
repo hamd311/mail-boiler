@@ -8,7 +8,7 @@ export default function Pricing() {
 
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-gray-50 via-cyan-50/30 to-blue-50 relative overflow-hidden">
+        <div className="min-h-screen via-cyan-50/30 relative overflow-hidden">
       
             <PricingSection  margin/>
       

@@ -60,7 +60,7 @@ export default function Contact() {
   }
 
   return (
-      <div className="min-h-screen bg-gradient-to-br from-gray-50 via-cyan-50/30 to-blue-50 relative overflow-hidden">
+      <div className="min-h-screen via-cyan-50/30 relative overflow-hidden">
       {/* Animated Background Illustrations */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         {/* Gradient Orbs */}
@@ -187,7 +187,7 @@ export default function Contact() {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.4 }}
-                  className="flex items-start gap-4 rounded-lg bg-white/50 backdrop-blur-sm border border-border/50 p-4 shadow-sm hover:shadow-md transition-shadow"
+                  className="flex items-start gap-4 rounded-lg backdrop-blur-sm border p-4 shadow-sm hover:shadow-md transition-shadow"
                 >
                   <div className="flex h-12 w-12 items-center justify-center rounded-full bg-gradient-to-br from-[#10b981] to-[#06b6d4] text-white shrink-0">
                     <Clock className="h-6 w-6" />
@@ -204,7 +204,7 @@ export default function Contact() {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.5 }}
-                  className="flex items-start gap-4 rounded-lg bg-white/50 backdrop-blur-sm border border-border/50 p-4 shadow-sm hover:shadow-md transition-shadow"
+                  className="flex items-start gap-4 rounded-lg backdrop-blur-sm border p-4 shadow-sm hover:shadow-md transition-shadow"
                 >
                   <div className="flex h-12 w-12 items-center justify-center rounded-full bg-gradient-to-br from-[#06b6d4] to-[#3b82f6] text-white shrink-0">
                     <Headphones className="h-6 w-6" />
@@ -221,7 +221,7 @@ export default function Contact() {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.6 }}
-                  className="flex items-start gap-4 rounded-lg bg-white/50 backdrop-blur-sm border border-border/50 p-4 shadow-sm hover:shadow-md transition-shadow"
+                  className="flex items-start gap-4 rounded-lg backdrop-blur-sm border p-4 shadow-sm hover:shadow-md transition-shadow"
                 >
                   <div className="flex h-12 w-12 items-center justify-center rounded-full bg-gradient-to-br from-[#3b82f6] to-[#10b981] text-white shrink-0">
                     <CheckCircle2 className="h-6 w-6" />
@@ -261,7 +261,7 @@ export default function Contact() {
               initial={{ opacity: 0, x: 30 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.6, delay: 0.2 }}
-              className="rounded-xl bg-white/70 backdrop-blur-md border border-border/50 p-8 shadow-xl"
+              className="rounded-xl backdrop-blur-md border p-8 shadow-xl"
             >
               <div className="mb-6">
                 <h2 className="mb-2">Send us a message</h2>
@@ -283,7 +283,7 @@ export default function Contact() {
                             placeholder="Your name"
                             {...field}
                             startIcon={<User className="h-4 w-4" />}
-                            className="h-11 bg-background/50 border-gray-300 focus-visible:border-[#10b981]/50 focus-visible:ring-[#10b981]/20"
+                            className="h-11 bg-background/50 focus-visible:border-[#10b981]/50 focus-visible:ring-[#10b981]/20"
                           />
                         </FormControl>
                         <FormMessage />
@@ -302,7 +302,7 @@ export default function Contact() {
                             type="email"
                             {...field}
                             startIcon={<Mail className="h-4 w-4" />}
-                            className="h-11 bg-background/50 border-gray-300 focus-visible:border-[#06b6d4]/50 focus-visible:ring-[#06b6d4]/20"
+                            className="h-11 bg-background/50 focus-visible:border-[#06b6d4]/50 focus-visible:ring-[#06b6d4]/20"
                           />
                         </FormControl>
                         <FormMessage />
@@ -320,7 +320,7 @@ export default function Contact() {
                             placeholder="What is this regarding?"
                             {...field}
                             startIcon={<MessageSquare className="h-4 w-4" />}
-                            className="h-11 bg-background/50 border-gray-300 focus-visible:border-[#3b82f6]/50 focus-visible:ring-[#3b82f6]/20"
+                            className="h-11 bg-background/50 focus-visible:border-[#3b82f6]/50 focus-visible:ring-[#3b82f6]/20"
                           />
                         </FormControl>
                         <FormMessage />
@@ -336,7 +336,7 @@ export default function Contact() {
                         <FormControl>
                           <Textarea
                             placeholder="How can we help you?"
-                            className="min-h-[140px] bg-background/50 resize-none border-gray-300 focus-visible:border-[#10b981]/50 focus-visible:ring-[#10b981]/20"
+                            className="min-h-[140px] bg-background/50 resize-none focus-visible:border-[#10b981]/50 focus-visible:ring-[#10b981]/20"
                             {...field}
                           />
                         </FormControl>
