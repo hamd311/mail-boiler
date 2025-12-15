@@ -6,7 +6,7 @@ import { Button } from "../ui/button";
 import { usePayments } from "@/hooks/usePayments";
 import { useEffect, useState } from "react";
 
-export function PricingSection() {
+export function PricingSection({margin=false}) {
   const { createCheckoutSession, getPackages, creatingCheckoutSession } =
     usePayments();
 
@@ -57,8 +57,8 @@ export function PricingSection() {
   };
 
   return (
-    <section id="pricing" className="bg-background">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+    <section id="pricing" className={`bg-background `}>
+      <div className={`container mx-auto px-4 sm:px-6 lg:px-8  ${margin? "py-16": ""}`}>
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}

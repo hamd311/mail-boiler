@@ -4,7 +4,7 @@ import { Shield, LogOut, Menu, X, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/lib/contexts/AuthContext";
 import { motion, AnimatePresence } from "motion/react";
-import { useRouter, usePathname } from "next/navigation";
+import { useRouter, usePathname, useParams } from "next/navigation";
 import { ThemeToggle } from "./theme-toggle";
 import Image from "next/image";
 import Link from "next/link";
@@ -15,7 +15,6 @@ export default function Navbar() {
   const pathname = usePathname();
   const { user, logout, initializing } = useAuth();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-
   const navigate = (path: string) => {
     router.push(path);
     setMobileMenuOpen(false);
@@ -40,7 +39,8 @@ export default function Navbar() {
             <NavLink active={pathname === "/"} onClick={() => navigate("/")}>
               Home
             </NavLink>
-            <NavLink onClick={handlePricingClick}>Pricing</NavLink>
+            <NavLink active={pathname==="/pricing"} onClick={()=>navigate("/pricing")}>Pricing</NavLink>
+            <NavLink active={pathname==="/contact"} onClick={()=>navigate("/contact")}>Contact Us</NavLink>
             {user && (
               <NavLink
                 active={pathname === "/dashboard"}

@@ -25,6 +25,5 @@ export async function apiFetch(
       ...(fetchOptions.headers || {}),
     },
   });
-
   return res;
 }
