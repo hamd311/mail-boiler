@@ -51,16 +51,6 @@ export default function LoginPage() {
           transition={{ delay: 0.5 }}
         >
           <Card className="border-border/50 shadow-xl backdrop-blur-sm sm:min-w-lg">
-            <CardHeader className=" border-b">
-              <Link
-                href="/"
-                className="inline-flex items-center gap-2 text-sm text-muted-foreground transition-colors hover:text-foreground"
-              >
-                <ArrowRight className="h-4 w-4 rotate-180" />
-                Back to Home
-              </Link>
-            </CardHeader>
-
             {/* Logo in center */}
             <div className="flex justify-center">
               <Logo size="md" />

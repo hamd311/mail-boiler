@@ -78,7 +78,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const fetchMe = async () => {
     try {
-      const res = await apiFetch("/me", {
+      const res = await apiFetch("/get_profile", {
         method: "GET",
         auth: true,
       });
