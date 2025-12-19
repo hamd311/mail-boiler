@@ -10,9 +10,9 @@ pipelines:
             - mkdir -p ~/.ssh
             - echo "$SSH_PRIVATE_KEY" | tr -d '\r' > ~/.ssh/id_rsa
             - chmod 600 ~/.ssh/id_rsa
-            - ssh-keyscan -H 18.204.155.59 >> ~/.ssh/known_hosts
+            - ssh-keyscan -H 18.235.27.0 >> ~/.ssh/known_hosts
             - echo "Triggering deployment on EC2..."
-            - ssh -i ~/.ssh/id_rsa ubuntu@18.204.155.59 'bash /home/ubuntu/mail_verify_fe/deploy.sh'
+            - ssh -i ~/.ssh/id_rsa ubuntu@18.235.27.0 'bash /home/ubuntu/mail_verify_fe/deploy.sh'
     develop:
       - step:
           name: Trigger Deployment on EC2
@@ -21,6 +21,6 @@ pipelines:
             - mkdir -p ~/.ssh
             - echo "$SSH_PRIVATE_KEY" | tr -d '\r' > ~/.ssh/id_rsa
             - chmod 600 ~/.ssh/id_rsa
-            - ssh-keyscan -H 18.204.155.59 >> ~/.ssh/known_hosts
+            - ssh-keyscan -H 18.235.27.0 >> ~/.ssh/known_hosts
             - echo "Triggering deployment on EC2..."
-            - ssh -i ~/.ssh/id_rsa ubuntu@18.204.155.59 'bash /home/ubuntu/mailboiler-dev/mail_verify_fe/deploy.sh'
+            - ssh -i ~/.ssh/id_rsa ubuntu@18.235.27.0 'bash /home/ubuntu/mailboiler_dev/mail_verify_fe/deploy.sh'
