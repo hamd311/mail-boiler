@@ -58,7 +58,7 @@ export function HeroSection() {
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     const response = await verifySingleEmail(values.email);
-    setSingleMailResult(response.result);
+    setSingleMailResult(response.data);
   };
 
   return (

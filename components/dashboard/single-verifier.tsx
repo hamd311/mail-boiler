@@ -48,9 +48,9 @@ export function SingleVerifier() {
     try {
       const response = await verifyEmail([data.email]);
 
-      if (response?.results?.length > 0) {
+      if (response?.data?.length > 0) {
         const resultData: VerificationResult = {
-          ...response.results[0],
+          ...response.data[0],
         };
         setResult(resultData);
         reset();

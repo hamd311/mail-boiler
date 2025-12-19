@@ -84,8 +84,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       });
 
       if (!res.ok) throw new Error("Unauthorized");
-
-      const data: MeResponse = await res.json();
+      const response = await res.json();
+      const data: MeResponse = response.data;
 
       setUser({ ...data });
     } catch (err) {
@@ -174,7 +174,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         return;
       }
 
-      const token = data.access_token;
+      const token = data.data.access_token;
       localStorage.setItem("mailverify-token", token);
 
       // Fetch profile
@@ -229,7 +229,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         return;
       }
       const data = await res.json();
-      if (data.email_sent) {
+      if (data.data.email_sent) {
         toast({
           title: "Verification email sent",
           description: "Please check your inbox to verify your account.",

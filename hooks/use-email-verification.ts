@@ -12,11 +12,11 @@ export interface VerificationResult {
 }
 
 export interface VerifyResponse {
-  results: VerificationResult[];
+  data: VerificationResult[];
 }
 
 export interface SingleMainVerifyResponse {
-  result: VerificationResult;
+  data: VerificationResult;
 }
 
 export function useEmailVerification() {
@@ -51,19 +51,19 @@ export function useEmailVerification() {
 
       const data: VerifyResponse = await response.json();
 
-      if (data.results?.length > 0) {
-        setResult(data.results[0]);
+      if (data?.data.length > 0) {
+        setResult(data.data[0]);
         toast({ title: "Verification complete!" });
       }
 
       return data;
-    } catch (error) {
+    } catch {
       toast({
         title: "Failed to verify email",
         description: "Something went wrong. Please try again later.",
         variant: "destructive",
       });
-      return { results: [] };
+      return { data: [] };
     } finally {
       setLoading(false);
       await fetchMe();
@@ -88,8 +88,8 @@ export function useEmailVerification() {
       }
 
       const data: SingleMainVerifyResponse = await response.json();
-      if (data.result) {
-        setSingleMailResult(data.result);
+      if (data) {
+        setSingleMailResult(data.data);
         toast({ title: "Verification complete!" });
       }
 
@@ -102,7 +102,7 @@ export function useEmailVerification() {
         variant: "destructive",
       });
       return {
-        result: { status: "error", email, message: "Failed verification" },
+        data: { status: "error", email, message: "Failed verification" },
       };
     } finally {
       setLoading(false);

@@ -53,15 +53,15 @@ export default function PaymentSuccessClient() {
 
         setMessage(data.message || "");
 
-        if (data.payment_status === "paid") {
+        if (data?.data.payment_status === "paid") {
           setSuccess(true);
-          setSubscriptionInfo(data.subscription);
+          setSubscriptionInfo(data.data.subscription);
           fetchMe();
           toast({ title: "Payment Successful!" });
-        } else if (data.payment_status === "already_processed") {
+        } else if (data.data.payment_status === "already_processed") {
           setSuccess(true);
           setAlreadyProcessed(true);
-          setSubscriptionInfo(data.subscription || null); // subscription can be null
+          setSubscriptionInfo(data.data.subscription || null); // subscription can be null
           toast({ title: data.message });
         } else {
           setSuccess(false);
@@ -167,7 +167,7 @@ export default function PaymentSuccessClient() {
                     <p className="text-lg font-semibold">
                       {subscriptionInfo?.expiry_date
                         ? new Date(
-                            subscriptionInfo.expiry_date
+                            subscriptionInfo.expiry_date,
                           ).toLocaleDateString("en-US", {
                             year: "numeric",
                             month: "long",

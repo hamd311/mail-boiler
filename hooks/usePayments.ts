@@ -32,10 +32,11 @@ export function usePayments() {
         headers: { accept: "application/json" },
       });
 
-      if (!response.ok) throw new Error(`Failed to fetch packages (${response.status})`);
+      if (!response.ok)
+        throw new Error(`Failed to fetch packages (${response.status})`);
 
       const data = await response.json();
-      return data;
+      return data.data;
     } catch (error) {
       console.error("Fetch Packages Error:", error);
       toast({
@@ -52,17 +53,20 @@ export function usePayments() {
   // --------------------------------------------------
   // HANDLE STRIPE CHECKOUT (NEW)
   // --------------------------------------------------
-  const createCheckoutSession = async (package_id: string,planName:string): Promise<CheckoutResult | null> => {
+  const createCheckoutSession = async (
+    package_id: string,
+    planName: string,
+  ): Promise<CheckoutResult | null> => {
     if (!user) {
       router.push(`/login?plan=${package_id}`);
       return null;
     }
-    if(planName ==='free'){
+    if (planName === "free") {
       toast({
         title: "You are already on the Free plan",
         description: "No need to checkout for the Free plan.",
         variant: "destructive",
-      })
+      });
       return null;
     }
 
@@ -77,16 +81,16 @@ export function usePayments() {
 
       if (!response.ok) throw new Error(`Checkout failed (${response.status})`);
 
-      const data = await response.json(); 
+      const data = await response.json();
 
-      if (data.session_url) {
-        setCheckoutUrl(data.session_url);
+      if (data?.data.session_url) {
+        const session_url = data.data.session_url;
+        setCheckoutUrl(session_url);
         toast({ title: "Redirecting to payment..." });
-        window.location.replace(data.session_url);
-
+        window.location.replace(session_url);
       }
 
-      return data;
+      return data?.data;
     } catch (err) {
       console.error("Checkout Error:", err);
       toast({
@@ -139,6 +143,6 @@ export function usePayments() {
     getPackages,
     createCheckoutSession,
     manageSubscription,
-    creatingCheckoutSession
+    creatingCheckoutSession,
   };
 }

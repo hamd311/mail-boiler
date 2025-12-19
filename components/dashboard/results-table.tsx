@@ -41,7 +41,7 @@ export function ResultsTable({ results }: ResultsTableProps) {
 
   // Calculate stats
   const validCount = results.filter(
-    (r) => r.status === "exists" || r.status === "valid"
+    (r) => r.status === "exists" || r.status === "valid",
   ).length;
   const invalidCount = results.length - validCount;
   const validPercentage =
@@ -78,7 +78,7 @@ export function ResultsTable({ results }: ResultsTableProps) {
           result.email,
           result.status,
           `"${result.message?.replace(/"/g, '""') || ""}"`,
-        ].join(",")
+        ].join(","),
       ),
     ].join("\n");
 
