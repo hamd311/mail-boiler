@@ -106,9 +106,9 @@ export function BulkUpload({ onResults }: BulkUploadProps) {
     try {
       const response = await verifyEmail(emails);
 
-      if (response?.results?.length > 0) {
-        onResults(response.results);
-        setResults(response.results);
+      if (response?.data?.length > 0) {
+        onResults(response.data);
+        setResults(response.data);
       }
     } catch (error) {
       console.error("Email verification failed:", error);

@@ -61,7 +61,7 @@ export function BulkVerifier({ onResults }: BulkVerifierProps) {
       .split(/[\s,]+/)
       .filter((email) => email.trim() !== "");
     const validEmails = emails.filter((email) =>
-      /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())
+      /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim()),
     );
     return Array.from(new Set(validEmails));
   }
@@ -79,8 +79,8 @@ export function BulkVerifier({ onResults }: BulkVerifierProps) {
 
       const response = await verifyEmail(emails);
 
-      setResults(response.results);
-      onResults?.(response.results);
+      setResults(response.data);
+      onResults?.(response.data);
     } catch (error) {
       console.error("Verification failed:", error);
     } finally {
@@ -90,7 +90,7 @@ export function BulkVerifier({ onResults }: BulkVerifierProps) {
 
   // Calculate stats
   const validCount = results.filter(
-    (r) => r.status === "exists" || r.status === "valid"
+    (r) => r.status === "exists" || r.status === "valid",
   ).length;
   const invalidCount = results.length - validCount;
   const validPercentage =
@@ -124,7 +124,7 @@ export function BulkVerifier({ onResults }: BulkVerifierProps) {
           result.email,
           result.status,
           `"${result.message?.replace(/"/g, '""') || ""}"`,
-        ].join(",")
+        ].join(","),
       ),
     ].join("\n");
 
