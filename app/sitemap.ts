@@ -1,6 +1,6 @@
 import type { MetadataRoute } from "next";
 
-export default function sitemap(): MetadataRoute.Sitemap | null {
+export default function sitemap(): MetadataRoute.Sitemap {
   //const baseUrl = "https://www.mailboiler.com";
 
   //const routes: {
@@ -31,5 +31,5 @@ export default function sitemap(): MetadataRoute.Sitemap | null {
   //  changeFrequency: route.changeFrequency,
   //  priority: route.priority,
     //}));
-    return null;
+    return [];
 }
