@@ -12,7 +12,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   //const routes: {
   //  path: string;
-  //  changeFrequency:
+  //  changeFrequency:.
   //    | "weekly"
   //    | "monthly"
   //    | "daily"
