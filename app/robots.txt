@@ -1,0 +1,6 @@
+User-agent: *
+Disallow: /commodity/
+
+Allow: /
+
+Sitemap: https://dev.mailboiler.com/sitemap.xml
