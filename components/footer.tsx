@@ -24,7 +24,7 @@ export function Footer() {
             <ul className="space-y-2">
               <li>
                 <a
-                  href="#features"
+                  href="#"
                   className="text-sm text-muted-foreground hover:text-foreground"
                 >
                   Features
@@ -33,7 +33,7 @@ export function Footer() {
 
               <li>
                 <a
-                  href="#pricing"
+                  href="/pricing"
                   className="text-sm text-muted-foreground transition-colors hover:text-foreground"
                 >
                   Pricing

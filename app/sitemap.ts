@@ -17,12 +17,10 @@ export default function sitemap(): MetadataRoute.Sitemap {
   }[] = [
     { path: "", changeFrequency: "weekly", priority: 1 },
     { path: "pricing", changeFrequency: "daily", priority: 0.9 },
-    { path: "login", changeFrequency: "monthly", priority: 0.8 },
-    { path: "signup", changeFrequency: "monthly", priority: 0.8 },
-    { path: "dashboard", changeFrequency: "daily", priority: 0.9 },
-    { path: "payment-success", changeFrequency: "monthly", priority: 0.5 },
-    { path: "about", changeFrequency: "monthly", priority: 0.7 },
-    { path: "contact", changeFrequency: "monthly", priority: 0.7 },
+    { path: "login", changeFrequency: "monthly", priority: 0.6 },
+    { path: "signup", changeFrequency: "monthly", priority: 0.6 },
+    { path: "about", changeFrequency: "monthly", priority: 0.8 },
+    { path: "contact", changeFrequency: "monthly", priority: 0.8 },
     { path: "privacy-policy", changeFrequency: "yearly", priority: 0.4 },
     { path: "terms-conditions", changeFrequency: "yearly", priority: 0.4 },
   ];
