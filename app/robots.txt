@@ -3,4 +3,4 @@ Disallow: /commodity/
 
 Allow: /
 
-Sitemap: https://mailboiler.com/sitemap.xml
+Sitemap: https://www.mailboiler.com/sitemap.xml
